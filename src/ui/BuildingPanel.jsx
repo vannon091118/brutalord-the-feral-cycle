@@ -30,6 +30,7 @@ function PanelHeader({ def, onClose }) {
 function WorkerControls({ building, maxWorkers, freeWorkers, onAssign, onRelease }) {
   const buttonClass =
     'rounded-lg border border-bone-400/15 bg-soil-900/70 px-2.5 py-1 text-[11px] text-bone-200 transition hover:border-core-400/40 disabled:opacity-40';
+  const assignTitle = building.workers.length >= maxWorkers ? "Bauwerk voll besetzt" : freeWorkers === 0 ? "Kein Dungling frei" : "Dungling zuweisen";
   return (
     <div className="flex items-center justify-between rounded-xl border border-bone-400/10 bg-soil-900/60 px-3 py-2">
       <span className="text-[11px] text-bone-200">
@@ -41,6 +42,8 @@ function WorkerControls({ building, maxWorkers, freeWorkers, onAssign, onRelease
           className={buttonClass}
           disabled={building.workers.length >= maxWorkers || freeWorkers === 0}
           onClick={onAssign}
+          aria-label={assignTitle}
+          title={assignTitle}
         >
           + Dungling
         </button>

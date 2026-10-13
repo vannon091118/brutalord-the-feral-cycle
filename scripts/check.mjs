@@ -163,6 +163,6 @@ async function main() {
 try {
   await main();
 } catch (error) {
-  console.error(`check: ${error.message}`);
+  console.error(`check: ${error.stack}`);
   process.exitCode = 1;
 }
