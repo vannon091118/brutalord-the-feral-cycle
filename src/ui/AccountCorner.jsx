@@ -21,7 +21,7 @@ export function AccountCorner({ session, swarm, buildings = [], game, actions, o
       >
         {session.name} · abmelden
       </button>
-      {ladderOpen(buildings) ? <RaidPanel game={game} actions={actions} playerseed={session.playerseed} /> : null}
+      {ladderOpen(buildings) ? <RaidPanel game={game} actions={actions} playerseed={session.playerseed} token={session.token} /> : null}
       {ladderOpen(buildings) ? <RaidLedger token={session.token} swarm={swarm} /> : null}
     </div>
   );

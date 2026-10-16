@@ -2,6 +2,7 @@
 import { check, section } from './expect.mjs';
 import { readFileSync } from 'node:fs';
 import { feralDefender, feralTicketArgs } from '../../src/domain/raid/raid-ticket.js';
+import { issueRaidTicket, submitRaid } from '../../src/ui/raid-submit.js';
 
 function liest(pfad) {
   return readFileSync(pfad, 'utf8');
@@ -27,7 +28,34 @@ function checkPanelNaht() {
   check('Das Panel fragt Optionen und Kader', panel.includes('raidOptions(') && panel.includes('cadreRule('));
 }
 
-export function checkRaidWiring() {
+function checkSubmitNaht() {
+  section('Raid-Verdrahtung: Einreichung');
+  const quelle = liest('src/ui/raid-submit.js');
+  check('Der Client ruft beide Raid-Wege auf', quelle.includes("'/api/raid/ticket'") && quelle.includes("'/api/raid'"));
+  return stubFetch();
+}
+
+async function stubFetch() {
+  const echt = globalThis.fetch;
+  const rufe = [];
+  globalThis.fetch = async (url, init) => {
+    rufe.push({ url, init });
+    return { ok: true, status: 200, json: async () => ({ ok: true, ticket: { id: 't-1' }, loot: { essence: 3, bloodstone: 0 } }) };
+  };
+  try {
+    const ausweis = await issueRaidTicket('tok', { defender: 'feral', heroes: ['a'] });
+    check('Das Ticket kommt an', ausweis.ok === true && ausweis.ticket?.id === 't-1');
+    const quittung = await submitRaid('tok', { ticket: { id: 't-1' }, actions: [], claimed: null });
+    check('Die Quittung kommt an', quittung.ok === true && quittung.loot?.essence === 3);
+    check('Beide Rufe tragen den Träger-Token', rufe.every((ruf) => ruf.init?.headers?.Authorization === 'Bearer tok'));
+    check('Die Wege stimmen', rufe[0]?.url === '/api/raid/ticket' && rufe[1]?.url === '/api/raid');
+  } finally {
+    globalThis.fetch = echt;
+  }
+}
+
+export async function checkRaidWiring() {
   checkFeralNaht();
   checkPanelNaht();
+  await checkSubmitNaht();
 }

@@ -289,7 +289,7 @@ und mit einem Lauf, den ein zweiter nachspielen kann.
   Version: ausstehend
   Datum: ausstehend
 
-- [ ] **Der Raid hat keinen Platz im Spielstand — der Fund hinter dem Raid-Buch.**
+- [x] **Der Raid hat keinen Platz im Spielstand — der Fund hinter dem Raid-Buch.**
       Ein Durchsuchen von `src/state`, `src/ui` und `src/app` findet vor dem Raid-Buch
       keinen einzigen Treffer auf Raid, Koma oder Beute: kein Feld für einen laufenden
       Raid, keine Zeile in `action-types.js`, kein Aufrufer für `POST /api/raid` oder
@@ -307,9 +307,11 @@ und mit einem Lauf, den ein zweiter nachspielen kann.
       ist derselbe Fall und steht schon oben. **Stand seit diesem Zug:** das Feld existiert
       (`state.raid` mit Ticket plus Instanz, drei Aktionen in `action-types.js`, Abrechnung in
       `lastRaid`), und das Raid-Panel in der Kontoecke spielt den Ablauf — Start gegen den
-      Feral-Hive, Schritte mit Kosten, Taten nur in Reichweite, Sicherung am Eintritt. Was
-      fehlt, ist der Aufrufer für `POST /api/raid` und `POST /api/raid/ticket`: die Beute
-      landet lokal, nicht über die Quittung des Servers.
+      Feral-Hive, Schritte mit Kosten, Taten nur in Reichweite, Sicherung am Eintritt. Der
+      Aufrufer steht seit P0-05: `src/ui/raid-submit.js` holt das Ticket über
+      `POST /api/raid/ticket` (Feral ohne Verteidiger-Konto, D56) und reicht das Log über
+      `POST /api/raid` ein — die Quittung schreibt der Server nach dem Replay-Check, das
+      Panel zeigt sie in der Ergebniszeile. Ohne Server läuft der Feral-Raid lokal weiter.
   Status: geplant
   Scope: Client
   Kategorie: Feature

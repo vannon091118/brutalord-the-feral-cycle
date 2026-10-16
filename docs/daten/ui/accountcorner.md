@@ -20,7 +20,8 @@ der Server nichts und die Sitzung bleibt auf der anderen Seite offen.
 Der Schwarm wird durchgereicht und nicht hier gelesen: den Kader prüft die Domäne
 (`cadreRule()`), diese Komponente hat dafür keine eigene Meinung. Seit dem Raid-Panel
 reicht `App.jsx` zusätzlich Spielstand und Aktionen durch — Start, Zug und Ende des Raids
-laufen über dieselben Dispatches wie der Rest des Spiels.
+laufen über dieselben Dispatches wie der Rest des Spiels. Seit P0-05 trägt die Ecke
+außerdem den Träger-Token ins Panel: Ticket und Quittung brauchen die Sitzung.
 
 **Das Raid-Buch erscheint erst mit dem Leiterschacht.** `ladderOpen(buildings)`
 aus dem Kreislauf entscheidet, ob der Knopf da ist: ohne Schacht gibt es keinen

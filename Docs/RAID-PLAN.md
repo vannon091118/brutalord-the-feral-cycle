@@ -443,6 +443,10 @@ Lesart, und `round` heißt dann genau das. Eine Wächter-Regeneration „je Rund
   Reichweite, sonst nichts — kein AP-Abzug, kein Log-Eintrag. Ohne die Regel
   tötet der Einmarsch die Wächter aus der Ferne, und die Ausdauer-Wand aus D33
   wäre Dekoration.
+- **D56 — Das Feral-Ticket stellt der Server ohne Verteidiger-Konto aus.** Der
+  Seed kommt aus dem Angreifer-Namen, nicht aus einem fremden Spielstand; die
+  Paar-Bindung, die Frist und der Replay-Check gelten wie für jedes Ticket.
+  Ohne Server läuft der Feral-Raid lokal — ohne Quittung, aber nie still.
 - **D55 — Der Feral-Gegner wohnt beim Ticket.** Bis das MMR steht, leitet
   `feralTicketArgs()` genau einen deterministischen Gegner aus dem Heimseed
   ab (Seed plus eins, kein Wurf). Das MMR ersetzt später nur diese eine Naht,

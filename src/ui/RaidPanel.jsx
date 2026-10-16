@@ -1,6 +1,7 @@
 // @doc: docs/daten/ui/raidpanel.md#raidpanel
-import { useMemo, useState } from 'react';
-import { cadreRule, feralTicketArgs, ticketFrom } from '../domain/raid/raid-ticket.js';
+import { useMemo, useRef, useState } from 'react';
+import { cadreRule } from '../domain/raid/raid-ticket.js';
+import { FERAL_DEFENDER, startRaidAgainst, submitRaid } from './raid-submit.js';
 import { createRaidWorld } from '../domain/raid/raid-world.js';
 import { raidOptions } from '../domain/raid/raid-options.js';
 import { approachSteps } from '../domain/raid/raid-config.js';
@@ -52,14 +53,14 @@ function Knopf({ text, aktiv, onClick }) {
   );
 }
 
-function StartAbschnitt({ dunglings, playerseed, onStart }) {
+function StartAbschnitt({ dunglings, playerseed, token, onStart }) {
   const [fehler, setFehler] = useState(null);
   const regel = cadreRule({ heroes: dunglings.map((worker) => worker.id), dunglings });
   const text = regel.ok ? `${regel.heroes.length} Wesen · ${regel.grit} Grit` : regel.reason;
-  const starten = () => {
-    const ticket = ticketFrom(feralTicketArgs({ playerseed, heroes: regel.heroes }));
-    if (!ticket) setFehler('Kein Einmarsch in den Feral-Hive gefunden.');
-    else onStart(ticket);
+  const starten = async () => {
+    const { ticket, note } = await startRaidAgainst(token, { playerseed, dunglings, defender: FERAL_DEFENDER });
+    setFehler(note);
+    if (ticket) onStart(ticket);
   };
   return (
     <div className="flex flex-col gap-1.5">
@@ -105,7 +106,7 @@ function SchrittAbschnitt({ schritte, onStep }) {
   );
 }
 
-function TatAbschnitt({ wahlen, abgerechnet, verloren, onVerb, onEnd }) {
+function TatAbschnitt({ wahlen, abgerechnet, verloren, onVerb, onEnd, onSichern }) {
   return (
     <div className="flex flex-col gap-1">
       <div className="flex gap-1">
@@ -117,7 +118,7 @@ function TatAbschnitt({ wahlen, abgerechnet, verloren, onVerb, onEnd }) {
         <Knopf
           text={abgerechnet.loot ? `Beute sichern: ${abgerechnet.loot.essence} Essenz, ${abgerechnet.loot.bloodstone} Blutstein` : 'Raid schließen'}
           aktiv
-          onClick={() => onEnd(false)}
+          onClick={onSichern}
         />
       ) : (
         <Knopf text="Abbrechen" aktiv onClick={() => onEnd(true)} />
@@ -126,7 +127,7 @@ function TatAbschnitt({ wahlen, abgerechnet, verloren, onVerb, onEnd }) {
   );
 }
 
-function LiveAbschnitt({ raid, onStep, onVerb, onEnd }) {
+function LiveAbschnitt({ raid, onStep, onVerb, onEnd, onSichern }) {
   const stand = raid.instance;
   const welt = useMemo(() => createRaidWorld({ snapshotSeed: raid.ticket.snapshotSeed }), [raid.ticket.snapshotSeed]);
   const optionen = raidOptions(stand, welt);
@@ -136,12 +137,12 @@ function LiveAbschnitt({ raid, onStep, onVerb, onEnd }) {
       <p className="px-0.5 text-[11px] leading-snug text-bone-300">{HINWEIS[stand.phase] ?? stand.phase}</p>
       <StatusAbschnitt stand={stand} />
       <SchrittAbschnitt schritte={optionen.schritte} onStep={onStep} />
-      <TatAbschnitt wahlen={optionen.wahlen} abgerechnet={abgerechnet} verloren={stand.lost} onVerb={onVerb} onEnd={onEnd} />
+      <TatAbschnitt wahlen={optionen.wahlen} abgerechnet={abgerechnet} verloren={stand.lost} onVerb={onVerb} onEnd={onEnd} onSichern={onSichern} />
     </div>
   );
 }
 
-function ErgebnisAbschnitt({ letzter }) {
+function ErgebnisAbschnitt({ letzter, notiz }) {
   return (
     <div className="mt-2 border-t border-bone-400/10 pt-2">
       <dl className="flex flex-col gap-1 px-0.5 text-[11px]">
@@ -151,24 +152,37 @@ function ErgebnisAbschnitt({ letzter }) {
         />
         {letzter.sacrificed.length > 0 ? <Zeile label="Geopfert" text={`${letzter.sacrificed.length} Wesen`} /> : null}
         {letzter.retrieval ? <Zeile label="Rückholung" text="Offen — der Hive fiel mit Opfer" /> : null}
+        {notiz ? <Zeile label="Server" text={notiz} /> : null}
       </dl>
     </div>
   );
 }
 
-export function RaidPanel({ game, actions, playerseed }) {
-  const schritt = (type) => actions.raidStep({ type });
+export function RaidPanel({ game, actions, playerseed, token }) {
+  const [notiz, setNotiz] = useState(null);
+  const verbs = useRef([]);
+  const schritt = (type) => { verbs.current.push({ type }); actions.raidStep({ type }); };
+  const starten = (ticket) => { verbs.current = []; setNotiz(null); actions.startRaid(ticket); };
+  const sichern = async () => {
+    const offen = game.raid;
+    const lauf = [...verbs.current];
+    actions.endRaid(false);
+    if (!offen) return;
+    const ergebnis = await submitRaid(token, { ticket: offen.ticket, actions: lauf, claimed: offen.instance });
+    if (ergebnis.ok) setNotiz(ergebnis.gebucht ? 'Quittiert.' : `Quittung: +${ergebnis.loot?.essence ?? 0} Essenz.`);
+    else setNotiz(ergebnis.error);
+  };
   if (game.raid) {
     return (
       <Rahmen titel="Raid" untertitel="Feral-Hive">
-        <LiveAbschnitt raid={game.raid} onStep={schritt} onVerb={schritt} onEnd={actions.endRaid} />
+        <LiveAbschnitt raid={game.raid} onStep={schritt} onVerb={schritt} onEnd={actions.endRaid} onSichern={sichern} />
       </Rahmen>
     );
   }
   return (
     <Rahmen titel="Raid" untertitel="Kader und Beute">
-      <StartAbschnitt dunglings={game.dunglings} playerseed={playerseed} onStart={actions.startRaid} />
-      {game.lastRaid ? <ErgebnisAbschnitt letzter={game.lastRaid} /> : null}
+      <StartAbschnitt dunglings={game.dunglings} playerseed={playerseed} token={token} onStart={starten} />
+      {game.lastRaid ? <ErgebnisAbschnitt letzter={game.lastRaid} notiz={notiz} /> : null}
     </Rahmen>
   );
 }
