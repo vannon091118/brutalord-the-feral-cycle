@@ -9,6 +9,7 @@ import { placementReport } from '../domain/buildings/building.js';
 import { ONBOARDING_CONFIG } from '../domain/onboarding/onboarding-config.js';
 import { ONBOARDING_STATE, hasReached } from '../domain/onboarding/onboarding-state.js';
 import { parseTileId, tileId } from '../domain/world/tile.js';
+import { STORE_RESOURCE, clampedStock, storeCapacity } from '../domain/economy/resource-store.js';
 
 export function spawnTile(world) {
   const spawn = world.spawnTileId ?? tileId(ONBOARDING_CONFIG.dunglingSpawnTile.x, ONBOARDING_CONFIG.dunglingSpawnTile.y);
@@ -60,6 +61,11 @@ export function selectedDepositRiskClass(state) {
   const tile = state.world.tiles?.find((t) => t.id === tileId) ?? null;
   if (!tile) return null;
   return depositRiskClassAt(state.world, tile);
+}
+
+export function hiveStock(state) {
+  const stock = Number.isInteger(state.essence) ? state.essence : 0;
+  return { stock: clampedStock(STORE_RESOURCE.ESSENCE, stock), capacity: storeCapacity(STORE_RESOURCE.ESSENCE) };
 }
 
 export function selectSelectedDepositInfo(game) {

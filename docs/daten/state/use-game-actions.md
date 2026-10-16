@@ -21,3 +21,7 @@ der Schacht gerade nicht im Bild steht; einen dritten Einstieg gibt es nicht.
 - `useGameActions()`
 
 Aus der Migration vom 2026-10-05 hervorgegangen.
+
+## Lager-Stand
+
+orderDungling() schickt DUNGLING_ORDERED an den Reducer.

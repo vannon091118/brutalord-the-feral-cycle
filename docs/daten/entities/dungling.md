@@ -27,3 +27,7 @@ Auftrag ist die Ausfuehrung. Ein Dungling ohne beides steht.
 - `withJob()`
 
 Aus der Migration vom 2026-10-05 hervorgegangen.
+
+## Lager-Stand
+
+dunglingMood() leitet ruhig, bereit, wartet, traegt aus Auftrag und Liste ab.

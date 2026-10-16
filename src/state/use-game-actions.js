@@ -6,6 +6,7 @@ export function useGameActions(dispatch) {
   return useMemo(
     () => ({
       clickHive: () => dispatch({ type: ACTION.HIVE_CLICKED }),
+      orderDungling: () => dispatch({ type: ACTION.DUNGLING_ORDERED }),
       clickTile: (tileId) => dispatch({ type: ACTION.TILE_SELECTED, tileId }),
       clearSelection: () => dispatch({ type: ACTION.TILE_SELECTION_CLEARED }),
       orderMining: () => dispatch({ type: ACTION.MINING_ORDERED }),

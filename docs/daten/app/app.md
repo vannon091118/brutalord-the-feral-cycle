@@ -29,3 +29,7 @@ der die Sitzung aus dem Baum nimmt; die Reihenfolge des Abmeldens führt die Eck
 - `Playing()`
 
 Aus der Migration vom 2026-10-05 hervorgegangen.
+
+## Lager-Stand
+
+Playing haelt hiveOpen lokal: ein Klick nach der ersten Geburt oeffnet das Panel.

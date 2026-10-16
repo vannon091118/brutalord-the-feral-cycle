@@ -31,3 +31,8 @@ sieht — sonst dreht die Uhr, ohne dass etwas passiert.
 - `agePopups()`
 - `advanceBuildings()`
 - `brood()`
+
+## Lager-Stand
+
+Der Takt bruetet nicht mehr.
+Bestellt wird am Hive, nicht im Takt.

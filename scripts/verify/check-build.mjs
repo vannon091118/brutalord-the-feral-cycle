@@ -7,7 +7,7 @@ import {
   BUILDING_DEFS,
   BUILDING_STATE,
   BUILDING_TYPE,
-  MAX_DUNGLINGS,
+  HORT_CAPACITY,
 } from '../../src/domain/buildings/building-config.js';
 import { JOB_CONFIG } from '../../src/domain/labour/job-config.js';
 import { ONBOARDING_CONFIG } from '../../src/domain/onboarding/onboarding-config.js';
@@ -60,11 +60,12 @@ function checkEssence(run) {
 }
 
 function checkSwarm(run) {
-  section('Schwarm: der Hort brütet Arbeiter');
+  section('Schwarm: der Hort ist Wohnraum, bestellt wird am Hive');
   check('Der Schwarmhort wird gebaut', run.swarm.state === BUILDING_STATE.READY);
   check('Der Bauplatz des Horts wird vollständig bezahlt', run.swarm.builtInMs > 0);
-  check('Der Hort stößt einen neuen Arbeiter aus', run.swarm.spawnedAfter >= 1);
-  check('Der Schwarm bleibt unter der Grenze', run.swarm.dunglingsAtEnd <= MAX_DUNGLINGS);
+  check('Die Bestellung füllt den Hort', run.swarm.spawnedAfter >= 1 && run.swarm.atCap === HORT_CAPACITY);
+  check('Der sechste ohne zweiten Hort ist unmöglich', run.swarm.sixthBlocked);
+  check('Der Schwarm bleibt in der Wohnraumgrenze', run.swarm.dunglingsAtEnd <= HORT_CAPACITY);
 }
 
 export function checkBuild() {

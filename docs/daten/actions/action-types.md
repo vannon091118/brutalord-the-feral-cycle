@@ -25,3 +25,7 @@ verbraucht beide Elternteile und setzt das Kind an ihre Stelle.
 - keine benannten Funktionen
 
 Aus der Migration vom 2026-10-05 hervorgegangen.
+
+## Lager-Stand
+
+DUNGLING_ORDERED bestellt einen Dungling ueber das Hive-Panel.

@@ -30,3 +30,7 @@ seine Definition, sondern `ladderOpen()` im Kreislauf.
 - `canAfford()`
 
 Aus der Migration vom 2026-10-05 hervorgegangen.
+
+## Lager-Stand
+
+HORT_CAPACITY (5 je Hort) und DUNGLING_COST (2 Essenz). MAX_DUNGLINGS bleibt Kader-Mass des Raids.

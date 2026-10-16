@@ -25,11 +25,10 @@ const OPENING_DIGS = 3;
 export const BUILDING_DEFS = Object.freeze({
   [BUILDING_TYPE.SWARM_HOST]: Object.freeze({
     label: 'Schwarmhort',
-    hint: 'Brütet Arbeiter',
+    hint: 'Wohnraum für fünf Dunglinge',
     width: 1,
     height: 1,
     cost: COST.swarmHost,
-    spawnEveryMs: 20000,
   }),
   [BUILDING_TYPE.ESSENCE_EXTRACTOR]: Object.freeze({
     label: 'Essenz Extractor',
@@ -58,6 +57,10 @@ export const BUILDING_DEFS = Object.freeze({
 export const START_ESSENCE = COST.extractor + OPENING_DIGS * ESSENCE_ECONOMY.miningCost;
 
 export const MAX_DUNGLINGS = 6;
+
+export const HORT_CAPACITY = 5;
+
+export const DUNGLING_COST = 2;
 
 export function buildingDef(type) {
   return BUILDING_DEFS[type] ?? null;

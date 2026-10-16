@@ -2,25 +2,19 @@
 import { JOB_EVENT, JOB_KIND, advanceJob } from './jobs.js';
 import { JOB_CONFIG } from './job-config.js';
 import { orderStep, spendOrder } from './order-job.js';
-import {
-  BUILDING_STATE,
-  MAX_DUNGLINGS,
-  buildingDef,
-} from '../buildings/building-config.js';
 import { deliverToSite, openSites, settleSite } from '../buildings/building.js';
-import { createDungling, idle, nextDunglingId, withJob } from '../entities/dungling.js';
+import { withJob } from '../entities/dungling.js';
 import { tickScale, unitEffects } from '../brutelord/stone-effects.js';
 
 export function advanceWork(work, dtMs, config = JOB_CONFIG) {
   const staffed = staffWorkers(work, config);
   const working = advanceWorkers(staffed, dtMs, config);
-  const grown = advanceBuildings(working, dtMs);
   return {
-    essence: grown.essence,
-    dunglings: grown.dunglings,
-    buildings: grown.buildings.map(settleSite),
-    popups: agePopups(grown.popups, dtMs, config),
-    popupSeq: grown.popupSeq,
+    essence: working.essence,
+    dunglings: working.dunglings,
+    buildings: working.buildings.map(settleSite),
+    popups: agePopups(working.popups, dtMs, config),
+    popupSeq: working.popupSeq,
   };
 }
 
@@ -36,7 +30,7 @@ export function hasWork(work) {
 }
 
 function isBusy(building) {
-  return building.workers.length > 0 || Boolean(buildingDef(building.type).spawnEveryMs);
+  return building.workers.length > 0;
 }
 
 function advanceWorkers(work, dtMs, config) {
@@ -83,23 +77,4 @@ function staffWorkers(work, config) {
   return next;
 }
 
-function advanceBuildings(work, dtMs) {
-  let dunglings = work.dunglings;
-  const buildings = work.buildings.map((building) => {
-    const brooded = brood({ building, dtMs, dunglings, anchor: work.anchor });
-    dunglings = brooded.dunglings;
-    return brooded.building;
-  });
-  return { ...work, buildings, dunglings };
-}
 
-function brood({ building, dtMs, dunglings, anchor }) {
-  const def = buildingDef(building.type);
-  if (building.state !== BUILDING_STATE.READY || !def.spawnEveryMs) return { building, dunglings };
-  const progressMs = building.progressMs + dtMs;
-  if (progressMs < def.spawnEveryMs || dunglings.length >= MAX_DUNGLINGS) {
-    return { building: { ...building, progressMs: Math.min(progressMs, def.spawnEveryMs) }, dunglings };
-  }
-  const born = idle(createDungling({ id: nextDunglingId(dunglings), tile: anchor }));
-  return { building: { ...building, progressMs: 0 }, dunglings: [...dunglings, born] };
-}

@@ -38,3 +38,7 @@ prüft alle, beide über `footprintFits()`.
 - `releaseWorker()`
 
 Aus der Migration vom 2026-10-05 hervorgegangen.
+
+## Lager-Stand
+
+dunglingCapFor() zaehlt fertige Horte mal Kapazitaet, ohne Hort gilt ein Freibett.

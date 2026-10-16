@@ -17,3 +17,7 @@ Dungling-Domäne: geboren werden, kriechen, bereit sein.
 - `ready()`
 
 Aus der Migration vom 2026-10-05 hervorgegangen.
+
+## Lager-Stand
+
+ordered() prueft Wohnraum und Kosten, dann schluepft ein Dungling am Spawn.

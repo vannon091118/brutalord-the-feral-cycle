@@ -16,6 +16,12 @@ export function App() {
 
 function Playing({ session, onSignedOut }) {
   const { state, actions } = useGameEngine(session);
+  const [hiveOpen, setHiveOpen] = useState(false);
+  const toggleHive = () => {
+    actions.clickHive();
+    if (state.hive.spawned > 0) setHiveOpen((open) => !open);
+  };
+  const stageActions = { ...actions, clickHive: toggleHive };
 
   return (
     <main className="dl-root relative flex h-full w-full flex-col overflow-hidden">
@@ -26,8 +32,8 @@ function Playing({ session, onSignedOut }) {
             'radial-gradient(58% 46% at 50% 44%, rgba(224,152,58,0.10) 0%, rgba(10,7,5,0) 70%)',
         }}
       />
-      <GameStage game={state} actions={actions} />
-      <GameHud game={state} actions={actions} />
+      <GameStage game={state} actions={stageActions} />
+      <GameHud game={state} actions={actions} hiveOpen={hiveOpen} onCloseHive={() => setHiveOpen(false)} />
       <AccountCorner session={session} swarm={state.dunglings} buildings={state.buildings} onSignedOut={onSignedOut} />
     </main>
   );

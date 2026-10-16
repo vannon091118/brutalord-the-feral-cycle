@@ -1,6 +1,6 @@
 // @doc: docs/daten/world/hivenode.md#hivenode
 import { memo } from 'react';
-import { canMutate } from '../domain/entities/hive.js';
+import { HIVE_PHASE, canMutate } from '../domain/entities/hive.js';
 import { soilBlob } from './tile-shapes.js';
 import { HiveSvg } from './Hive.svg.jsx';
 import { HiveInvitation } from './hive/HiveInvitation.jsx';
@@ -20,7 +20,7 @@ function hiveNest({ hive, tileSize }) {
 }
 
 export const HiveNode = memo(function HiveNode({ hive, tileSize, onboardingState, onClick }) {
-  const clickable = canMutate(hive);
+  const clickable = canMutate(hive) || hive.phase === HIVE_PHASE.SETTLED;
 
   return (
     <>

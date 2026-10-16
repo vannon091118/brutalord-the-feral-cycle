@@ -1,5 +1,5 @@
 // @doc: docs/daten/buildings/building.md#building
-import { BUILDING_STATE, PLACEMENT_REASON, buildingDef } from './building-config.js';
+import { BUILDING_STATE, BUILDING_TYPE, HORT_CAPACITY, PLACEMENT_REASON, buildingDef } from './building-config.js';
 import { allTiles, getTile, isInsideGrid } from '../world/grid.js';
 import { isBuildable, tileId } from '../world/tile.js';
 
@@ -91,6 +91,15 @@ export function committedEssence(buildings) {
 
 export function spendableEssence(essence, buildings) {
   return Math.max(0, essence - committedEssence(buildings));
+}
+
+export function readyHorts(buildings) {
+  return buildings.filter((building) => building.type === BUILDING_TYPE.SWARM_HOST && building.state === BUILDING_STATE.READY);
+}
+
+export function dunglingCapFor(buildings) {
+  const horts = readyHorts(buildings);
+  return horts.length === 0 ? 1 : horts.length * HORT_CAPACITY;
 }
 
 export function assignWorker(building, workerId) {

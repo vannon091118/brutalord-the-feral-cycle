@@ -1,11 +1,15 @@
 // @doc: docs/daten/reducers/dungling-reducer.md#dungling-reducer
 import { createDungling, idle, nextDunglingId, startSpawning } from '../../domain/entities/dungling.js';
+import { DUNGLING_COST } from '../../domain/buildings/building-config.js';
+import { dunglingCapFor, spendableEssence } from '../../domain/buildings/building.js';
 import { ONBOARDING_STATE, enterOnboarding } from '../../domain/onboarding/onboarding-state.js';
 import { ACTION } from '../../domain/actions/action-types.js';
 import { spawnTile, firstMineableTileId } from '../selectors.js';
 
 export function reduceDungling(state, action) {
   switch (action.type) {
+    case ACTION.DUNGLING_ORDERED:
+      return ordered(state);
     case ACTION.DUNGLING_SPAWNED:
       return spawned(state);
     case ACTION.DUNGLING_EMERGED:
@@ -31,6 +35,18 @@ function spawned(state) {
     dunglings: [...state.dunglings, born],
     hive: { ...state.hive, spawned: state.hive.spawned + 1 },
     onboarding: enterOnboarding(state.onboarding, ONBOARDING_STATE.DUNGLING_SPAWNING),
+  };
+}
+
+function ordered(state) {
+  if (state.dunglings.length >= dunglingCapFor(state.buildings)) return state;
+  if (spendableEssence(state.essence, state.buildings) < DUNGLING_COST) return state;
+  const born = idle(createDungling({ id: nextDunglingId(state.dunglings), tile: spawnTile(state.world) }));
+  return {
+    ...state,
+    dunglings: [...state.dunglings, born],
+    hive: { ...state.hive, spawned: state.hive.spawned + 1 },
+    essence: state.essence - DUNGLING_COST,
   };
 }
 

@@ -22,3 +22,7 @@ und Baumenü dieselbe Antwort bekommen.
 - `selectPlacement()`
 
 Aus der Migration vom 2026-10-05 hervorgegangen.
+
+## Lager-Stand
+
+hiveStock() liest den Bestand ueber das Lagerfach statt das Feld direkt.

@@ -23,3 +23,7 @@ Browser-Abnahme klickt genau die an.
 - `GameHud()`
 
 Aus der Migration vom 2026-10-05 hervorgegangen.
+
+## Lager-Stand
+
+HiveSlot zeigt Bestand, Wohnraum und die Liste; Essenz kommt aus hiveStock().

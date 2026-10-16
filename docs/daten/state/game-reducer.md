@@ -14,3 +14,7 @@ der Themen, steht in den beiden Ketten.
 - `gameReducer()`
 
 Aus der Migration vom 2026-10-05 hervorgegangen.
+
+## Lager-Stand
+
+capped() haelt die Essenz nach jedem Zug unter dem Lagerdeckel.

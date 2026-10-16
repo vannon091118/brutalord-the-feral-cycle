@@ -1,6 +1,6 @@
 // @doc: docs/daten/entities/dungling.md#dungling
 import { TILE_SIZE } from '../world/world-config.js';
-import { jobTrip } from '../labour/jobs.js';
+import { JOB_PHASE, jobTrip } from '../labour/jobs.js';
 
 export const DUNGLING_STATE = Object.freeze({
   NONE: 'NONE',
@@ -28,6 +28,18 @@ export function createDungling({ tile, facing = 1, id = 'dungling-1' }) {
 
 export function nextDunglingId(dunglings) {
   return `dungling-${dunglings.length + 1}`;
+}
+
+export const DUNGLING_MOOD = Object.freeze({
+  CALM: 'ruhig',
+  READY: 'bereit',
+  WAITING: 'wartet',
+  HAULING: 'traegt',
+});
+
+export function dunglingMood(worker) {
+  if (!worker.job) return worker.orders.length > 0 ? DUNGLING_MOOD.READY : DUNGLING_MOOD.CALM;
+  return worker.job.phase === JOB_PHASE.ATTEND ? DUNGLING_MOOD.WAITING : DUNGLING_MOOD.HAULING;
 }
 
 export function tilePositionPx(tile, tileSize = TILE_SIZE) {

@@ -1,6 +1,6 @@
 /** Bau-Durchlauf als Simulation: Extraktor, Schwarmhort, Brutlord. */
 import { ACTION } from '../../src/domain/actions/action-types.js';
-import { BUILDING_TYPE, canAfford } from '../../src/domain/buildings/building-config.js';
+import { BUILDING_TYPE, DUNGLING_COST, canAfford } from '../../src/domain/buildings/building-config.js';
 import { JOB_CONFIG } from '../../src/domain/labour/job-config.js';
 import { miningCost } from '../../src/domain/actions/mining.js';
 import { ONBOARDING_CONFIG } from '../../src/domain/onboarding/onboarding-config.js';
@@ -45,10 +45,6 @@ function tickUntil(clock, limitMs, reached) {
     elapsed += JOB_CONFIG.tickMs;
   }
   return elapsed;
-}
-
-function tickFor(clock, durationMs) {
-  return tickUntil(clock, durationMs, () => false);
 }
 
 function choose(clock, type) {
@@ -98,12 +94,33 @@ function buildSwarmHost(clock) {
   place(clock, SITE_TILES.swarmHost);
   const builtInMs = tickUntil(clock, 200000, (state) => paid(state.buildings[1]));
   const before = clock.state.dunglings.length;
-  tickFor(clock, 100000);
+  const ordered = orderSwarm(clock);
+  const blocked = clock.state.dunglings.length;
+  clock.dispatch(ACTION.DUNGLING_ORDERED);
   return {
     state: clock.state.buildings[1].state,
     builtInMs,
-    spawnedAfter: clock.state.dunglings.length - before,
+    spawnedAfter: ordered,
+    atCap: clock.state.dunglings.length,
+    sixthBlocked: clock.state.dunglings.length === blocked,
   };
+}
+
+function orderSwarm(clock) {
+  let ordered = 0;
+  let ms = 0;
+  while (ordered < 4 && ms < 400000) {
+    if (clock.state.essence >= DUNGLING_COST) {
+      const before = clock.state.dunglings.length;
+      clock.dispatch(ACTION.DUNGLING_ORDERED);
+      if (clock.state.dunglings.length === before) break;
+      ordered += 1;
+    } else {
+      tickOnce(clock);
+      ms += JOB_CONFIG.tickMs;
+    }
+  }
+  return ordered;
 }
 
 function staffToLimit(clock) {
