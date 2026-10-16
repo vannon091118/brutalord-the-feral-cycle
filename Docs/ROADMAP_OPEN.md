@@ -219,25 +219,6 @@ und mit einem Lauf, den ein zweiter nachspielen kann.
   Version: ausstehend
   Datum: ausstehend
 
-- [x] **Der Rundenwechsel kommt aus dem Log.** `nextRound()` rief bis heute der
-      Aufrufer — heute nur die Belagerungs-Fixture —, und `stateHashInput()` trug
-      `round` nicht, sodass zwei Instanzen auf verschiedenen Runden landen konnten,
-      ohne dass `replayMatches()` es merkte. Der beschlossene Umbau steht in
-      [`RAID-PLAN.md`](RAID-PLAN.md), *Der beschlossene Umbau: der Rundenwechsel
-      kommt aus dem Log* (D47): die Runde wird zur Folge der verbrauchten AP im
-      `applyAction`, und `round` kommt in den Hash. Der Preis ist der Golden-Wert
-      — `npm run golden:raid` wird einmal neu geschrieben. **Stand seit diesem Zug:**
-      `roundOver()` in `raid-state.js` füllt die AP auf und zählt die Runde hoch,
-      sobald kein Held mehr angreifen kann; `applyAction()` ruft es nach
-      `resolveLoss()`, die Fixture hat `ohneAp()` und den ausdrücklichen Ruf
-      verloren, und `check-raid-siege.mjs` belegt Rundenwechsel ohne Aufrufer plus
-      gleiche Runde in zwei Läufen. Der Golden-Wert ist auf Node 22 neu geschrieben.
-  Status: geplant
-  Scope: Domäne
-  Kategorie: Feature
-  Version: ausstehend
-  Datum: ausstehend
-
 - [ ] **Die vierte Tür hat noch nichts zu kaufen.** Ausbau, Aufwertung und
       Mutation haben je einen Preis im Opening; die Sicherheit hat keinen. Die
       Raid-Domäne kennt Wächter, Ausdauer und Grabkosten, aber kein Gebäude und
