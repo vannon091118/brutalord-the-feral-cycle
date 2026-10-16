@@ -37,6 +37,7 @@ export { checkRaidSiege } from './check-raid-siege.mjs';
 export { checkAccountWorker } from './check-account-worker.mjs';
 export { checkAccountHttp } from './check-account-http.mjs';
 export { checkRaidCap } from './check-raid-cap.mjs';
+export { checkRaidWiring } from './check-raid-wiring.mjs';
 export { checkRaidTicket } from './check-raid-ticket.mjs';
 export { checkBooking } from './check-booking.mjs';
 export { checkSoilMass } from './check-soil-mass.mjs';

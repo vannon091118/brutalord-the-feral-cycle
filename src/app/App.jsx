@@ -34,7 +34,7 @@ function Playing({ session, onSignedOut }) {
       />
       <GameStage game={state} actions={stageActions} />
       <GameHud game={state} actions={actions} hiveOpen={hiveOpen} onCloseHive={() => setHiveOpen(false)} />
-      <AccountCorner session={session} swarm={state.dunglings} buildings={state.buildings} onSignedOut={onSignedOut} />
+      <AccountCorner session={session} swarm={state.dunglings} buildings={state.buildings} game={state} actions={actions} onSignedOut={onSignedOut} />
     </main>
   );
 }

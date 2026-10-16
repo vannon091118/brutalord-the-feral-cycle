@@ -54,6 +54,17 @@ export function cadreRule({ heroes, dunglings, config = RAID_CONFIG }) {
   return { ok: true, grit, heroes: kader };
 }
 
+export function feralDefender({ playerseed }) {
+  const wurzel = Number.parseInt(String(playerseed).slice(0, 8), 16);
+  const seed = (Number.isInteger(wurzel) ? wurzel : 0) + 1;
+  return Object.freeze({ id: `feral-${seed}`, name: 'Feral-Hive', seed });
+}
+
+export function feralTicketArgs({ playerseed, heroes }) {
+  const gegner = feralDefender({ playerseed });
+  return { id: `raid-${gegner.seed}`, attackerId: String(playerseed), defenderId: gegner.id, defenderSeed: gegner.seed, heroes };
+}
+
 export function ticketFrom({ id, attackerId, defenderId, defenderSeed, heroes }) {
   const seed = entrySeed({ attackerId, defenderId, defenderSeed });
   const point = entryPointFor(createRaidWorld({ snapshotSeed: defenderSeed }), { seed, origin: HIVE_ORIGIN });

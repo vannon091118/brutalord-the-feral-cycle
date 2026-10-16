@@ -304,7 +304,12 @@ und mit einem Lauf, den ein zweiter nachspielen kann.
       in [`RAID-PLAN.md`](RAID-PLAN.md), *Die Integration der Raid-Sichtbarkeit* (5),
       weiterhin offen. Bis dahin zeigt die Oberfläche nur, was es wirklich gibt: den Kader
       über `cadreRule()` und die Quittungen des Servers. Der leere Rail-Platz für Biomasse
-      ist derselbe Fall und steht schon oben.
+      ist derselbe Fall und steht schon oben. **Stand seit diesem Zug:** das Feld existiert
+      (`state.raid` mit Ticket plus Instanz, drei Aktionen in `action-types.js`, Abrechnung in
+      `lastRaid`), und das Raid-Panel in der Kontoecke spielt den Ablauf — Start gegen den
+      Feral-Hive, Schritte mit Kosten, Taten nur in Reichweite, Sicherung am Eintritt. Was
+      fehlt, ist der Aufrufer für `POST /api/raid` und `POST /api/raid/ticket`: die Beute
+      landet lokal, nicht über die Quittung des Servers.
   Status: geplant
   Scope: Client
   Kategorie: Feature

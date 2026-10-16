@@ -21,8 +21,9 @@ ist ein zweiter Abnehmer desselben Envelope: `latestEnvelope()` und `pushEnvelop
 ihn mit dem Traeger-Token, und ohne Token oder ohne `fetch` bleibt der Aufruf still aus — der
 Browser darf ohne Server spielbar bleiben. Die Formprüfung weist alles ab, was kein Objekt
 ist: ein Rumpf mit Fassung, aber ohne Stand, fällt als 400 durch statt erst beim Lesen von
-`essence`. Sie vergleicht mehr als Typen: negative Essenz, eine Tiefe unter `FLOOR.start`, ein
-halber Hive-Anker und eine Welt ohne Mass fallen ebenfalls durch.
+`essence`. Sie vergleicht mehr als Typen: negative Essenz, eine Tiefe unter
+`FLOOR.start`, ein halber Hive-Anker, eine Welt ohne Mass
+und ein offener Raid ohne Form fallen ebenfalls durch.
 Der Streit um die Fassung bleibt nicht stumm: die Absage 409 traegt die Revision des Servers,
 und `pushEnvelope()` hebt die eigene Zaehlung darauf. Sonst schriebe der Client gegen einen
 Stand weiter, den der Server laengst ueberholt hat, und merkte es nie.

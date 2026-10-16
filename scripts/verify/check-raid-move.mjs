@@ -71,15 +71,17 @@ function checkIdleExplores() {
 }
 
 function checkAttack() {
-  section('Der Angriff zahlt AP');
+  section('Der Angriffsbefehl braucht Reichweite');
   const state = raidState();
   const world = raidWorld();
-  const target = westOf(state, 2);
-  const ordered = orderFrom(state, world, { verb: RAID_VERB.ATTACK, ...target });
+  const lager = { x: world.hiveOrigin.x, y: world.hiveOrigin.y - 1 };
+  const fuss = orderFrom(state, world, { verb: RAID_VERB.DIG, ...lager });
+  const neben = runTicks(fuss, world, fuss.path.length);
+  const ordered = orderFrom(neben, world, { verb: RAID_VERB.ATTACK, x: world.hiveOrigin.x, y: world.hiveOrigin.y });
   const hit = runTicks(ordered, world, 4);
-  check('Der Angriffsbefehl zielt neben das Ziel, nicht hinein', ordered.target.x === target.x);
-  check('Der Angriff ist ausgeführt', hit.log.some((entry) => entry.verb === RAID_VERB.ATTACK));
-  check('Jeder Held mit AP zahlt mit', hit.heroes.every((hero) => hero.ap === hero.apMax - RAID_CONFIG.attackApCost), `${hit.heroes[0].ap} AP`);
+  check('Der Angriffsbefehl zielt neben das Ziel, nicht hinein', ordered.target.x === world.hiveOrigin.x);
+  check('Gebunden marschiert die Gruppe nicht in den Schlag', hit.log.every((entry) => entry.verb !== RAID_VERB.ATTACK) && hit.path.length > 0);
+  check('Gebunden kostet der Marsch keine AP', hit.heroes.every((hero) => hero.ap === hero.apMax), `${hit.heroes[0].ap} AP`);
   const dry = { ...state, heroes: state.heroes.map((hero) => ({ ...hero, ap: 0 })) };
   check('Ohne AP gibt es keinen Schlag', runTicks(orderFrom(dry, world, ordered.order), world, 4).log.every((e) => e.verb !== RAID_VERB.ATTACK));
 }

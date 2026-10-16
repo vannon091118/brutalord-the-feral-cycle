@@ -61,7 +61,7 @@ function coma(wache) {
 
 function nextWarden(state) {
   return state.wardens
-    .filter((wache) => !wache.coma)
+    .filter((wache) => !wache.coma && withinReach(state.at, wache.at, RAID_WARDEN.zoneRadius))
     .sort((left, right) => approachSteps(state.at, left.at) - approachSteps(state.at, right.at))[0];
 }
 

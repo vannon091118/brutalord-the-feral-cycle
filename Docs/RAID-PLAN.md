@@ -438,6 +438,15 @@ Lesart, und `round` heißt dann genau das. Eine Wächter-Regeneration „je Rund
   MMR steht. Das Opfer gibt sofort Ausdauer (D10 gilt), die Rückholung steht
   nur bei verlorenem Hive mit Opfer offen; das Koma trifft Instanz-Wächter,
   nie echte Dunglinge.
+- **D54 — Schläge brauchen Reichweite.** Ein Angriff trifft nur, was in
+  Reichweite steht: bewusste Wächter in der Zone zuerst, sonst der Hive in
+  Reichweite, sonst nichts — kein AP-Abzug, kein Log-Eintrag. Ohne die Regel
+  tötet der Einmarsch die Wächter aus der Ferne, und die Ausdauer-Wand aus D33
+  wäre Dekoration.
+- **D55 — Der Feral-Gegner wohnt beim Ticket.** Bis das MMR steht, leitet
+  `feralTicketArgs()` genau einen deterministischen Gegner aus dem Heimseed
+  ab (Seed plus eins, kein Wurf). Das MMR ersetzt später nur diese eine Naht,
+  nicht den Start des Raids.
 - **D53 — Der laufende Raid ist ein Zweig der einen Kette.** `state.raid`
   trägt `{ ticket, instance }`, kein zweiter Zustand und kein zweiter
   Reducer-Baum. D4 gilt wörtlich: solange der Raid offen ist, pausieren

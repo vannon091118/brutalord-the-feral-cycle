@@ -1,10 +1,11 @@
 import { RaidLedger } from './RaidLedger.jsx';
+import { RaidPanel } from './RaidPanel.jsx';
 import { logoutAccount } from './account/account-api.js';
 import { clearSession } from './account/session.js';
 import { ladderOpen } from '../domain/economy/resource-cycle.js';
 
 // @doc: docs/daten/ui/accountcorner.md#accountcorner
-export function AccountCorner({ session, swarm, buildings = [], onSignedOut }) {
+export function AccountCorner({ session, swarm, buildings = [], game, actions, onSignedOut }) {
   const signOut = () => {
     logoutAccount(session.token);
     clearSession();
@@ -20,6 +21,7 @@ export function AccountCorner({ session, swarm, buildings = [], onSignedOut }) {
       >
         {session.name} · abmelden
       </button>
+      {ladderOpen(buildings) ? <RaidPanel game={game} actions={actions} playerseed={session.playerseed} /> : null}
       {ladderOpen(buildings) ? <RaidLedger token={session.token} swarm={swarm} /> : null}
     </div>
   );

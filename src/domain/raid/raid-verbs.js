@@ -1,6 +1,6 @@
 // @doc: docs/daten/raid/raid-verbs.md#raid-verbs
 import { RAID_CONFIG, RAID_SIEGE } from './raid-config.js';
-import { anyWardenConscious, damageHive, damageWardens, hiveInReach } from './raid-warden.js';
+import { damageHive, damageWardens, hiveInReach, wardensAtHand } from './raid-warden.js';
 import { carriedLoot } from './raid-traits.js';
 import { record } from './raid-state.js';
 
@@ -13,7 +13,7 @@ export const RAID_VERB = Object.freeze({
 
 function strike(state, damage) {
   if (damage <= 0) return state;
-  if (anyWardenConscious(state.wardens)) return { ...state, wardens: damageWardens(state, damage) };
+  if (wardensAtHand(state).length > 0) return { ...state, wardens: damageWardens(state, damage) };
   if (hiveInReach(state)) return { ...state, hive: damageHive(state.hive, damage) };
   return state;
 }
@@ -22,6 +22,7 @@ export function attackStep(state, target) {
   const cost = RAID_CONFIG.attackApCost;
   const joiners = state.heroes.filter((hero) => hero.ap >= cost);
   if (joiners.length === 0) return state;
+  if (wardensAtHand(state).length === 0 && !hiveInReach(state)) return state;
   const charged = new Set(joiners.map((hero) => hero.id));
   const heroes = state.heroes.map((hero) => (charged.has(hero.id) ? { ...hero, ap: hero.ap - cost } : hero));
   const damage = joiners.reduce((sum, hero) => sum + hero.atk, 0);

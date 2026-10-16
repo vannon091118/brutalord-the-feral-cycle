@@ -6,7 +6,8 @@ Spiegel-Datei für `src/ui/AccountCorner.jsx`.
 
 ## Verantwortung
 
-Die Kontoecke rechts oben: das Abmelden und das Raid-Buch untereinander in einem Container.
+Die Kontoecke rechts oben: das Abmelden, das Raid-Panel
+und das Raid-Buch untereinander in einem Container.
 Sie steht als eigene Komponente, weil `App.jsx` am Import-Deckel stand — der Platz, an dem
 die beiden Knöpfe wohnen, ist eine eigene Verantwortung und nicht ein Anhängsel der
 Komposition.
@@ -17,7 +18,9 @@ ist Absicht und nicht Zufall — der Token muss beim Aufruf noch vorliegen, sons
 der Server nichts und die Sitzung bleibt auf der anderen Seite offen.
 
 Der Schwarm wird durchgereicht und nicht hier gelesen: den Kader prüft die Domäne
-(`cadreRule()`), diese Komponente hat dafür keine eigene Meinung.
+(`cadreRule()`), diese Komponente hat dafür keine eigene Meinung. Seit dem Raid-Panel
+reicht `App.jsx` zusätzlich Spielstand und Aktionen durch — Start, Zug und Ende des Raids
+laufen über dieselben Dispatches wie der Rest des Spiels.
 
 **Das Raid-Buch erscheint erst mit dem Leiterschacht.** `ladderOpen(buildings)`
 aus dem Kreislauf entscheidet, ob der Knopf da ist: ohne Schacht gibt es keinen

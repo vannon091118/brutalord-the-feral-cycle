@@ -1,5 +1,5 @@
 // @doc: docs/daten/state/snapshot-config.md#snapshot-config
-export const SNAPSHOT_VERSION = 5;
+export const SNAPSHOT_VERSION = 6;
 export const SNAPSHOT_KEY = 'dl.snapshot';
 export const SNAPSHOT_REVISION_KEY = 'dl.snapshot.revision';
 export const SNAPSHOT_REVISION_FIELD = 'revision';

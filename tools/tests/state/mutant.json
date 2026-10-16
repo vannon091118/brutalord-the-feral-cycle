@@ -1,5 +1,5 @@
 {
- "version": 5,
+ "version": 6,
  "seed": "a1b2c3d4e5f60718",
  "state": {
   "world": {
@@ -239,6 +239,7 @@
   "lastHarvest": null,
   "usableTileCount": 15,
   "buildMenuVisible": true,
-  "raid": null
+  "raid": null,
+  "lastRaid": null
  }
 }

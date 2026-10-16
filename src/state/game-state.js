@@ -25,6 +25,7 @@ export function createInitialGameState(playerseed) {
     popupSeq: 0,
     mining: null,
     raid: null,
+    lastRaid: null,
     onboarding: createOnboarding(),
     selectedTileId: null,
     highlightedTileId: null,

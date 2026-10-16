@@ -20,7 +20,8 @@ müssen — ein alter Stand *hat* den Wert nicht, und ein fehlendes Feld ist kei
 
 Der Start trägt `raid: null` — kein Raid offen. Der Zweig öffnet erst mit
 `RAID_STARTED` und schließt mit `RAID_ENDED` (D53); was dazwischen liegt, ist
-Ticket plus Instanz.
+Ticket plus Instanz. `lastRaid` hält die letzte Abrechnung für die Anzeige,
+bis der nächste Raid endet.
 
 Ein ungültiger Spielerseed baut **keinen** Startzustand. `createWorld()` liefert dafür
 `null`, und `createInitialGameState()` weigert sich statt eine Welt aus dem Seed `0` zu

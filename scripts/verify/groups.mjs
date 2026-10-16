@@ -35,6 +35,7 @@ export const GROUPS = Object.freeze([
   { id: 'raid-phases', file: `${V}check-raid-phases.mjs`, run: (m) => m.checkRaidPhases() },
   { id: 'raid-siege', file: `${V}check-raid-siege.mjs`, run: (m) => m.checkRaidSiege() },
   { id: 'raid-cap', file: `${V}check-raid-cap.mjs`, run: (m) => m.checkRaidCap() },
+  { id: 'raid-wiring', file: `${V}check-raid-wiring.mjs`, inputs: ['src/ui/AccountCorner.jsx', 'src/ui/RaidPanel.jsx', 'src/app/App.jsx'], run: (m) => m.checkRaidWiring() },
   { id: 'raid-ticket', file: `${V}check-raid-ticket.mjs`, heavy: true, run: (m) => m.checkRaidTicket() },
   { id: 'booking', file: `${V}check-booking.mjs`, heavy: true, run: (m) => m.checkBooking() },
   { id: 'raid-golden', file: `${V}check-raid-golden.mjs`, inputs: [`${V}raid-golden.json`], heavy: true, run: (m) => m.checkRaidGolden() },

@@ -9,6 +9,7 @@ Spiegel-Datei für `src/state/snapshot-config.js`.
 Der Spielstand auf der Platte: welche Fassung, welcher Schlüssel, wie oft. Fassung 2 trug
 die Tiefe der Etage, Fassung 3 das Genom mit dem Spezies-Locus, Fassung 4 die
 Befehlsliste des Dunglings, Fassung 5 den offenen Raid (`raid`, im Start null);
+Fassung 6 die letzte Abrechnung (`lastRaid`, im Start null);
 ein Stand aus einer aelteren Fassung wird verworfen, statt beim
 Zeichnen an einem fehlenden Allel oder an einer fehlenden Liste zu scheitern — beide Male
 waere der Fehler derselbe stille Absturz beim ersten Zug.

@@ -11,4 +11,5 @@ plus Instanz, die Welt baut der Reducer je Aktion aus dem Ticket-Seed nach.
 
 ## Schnittstellen
 
-- `reduceRaid(state, action)` — STARTED öffnet, ACTION spielt, ENDED rechnet ab und schließt.
+- `reduceRaid(state, action)` — STARTED öffnet, ACTION spielt, ENDED rechnet ab
+  und schließt mit `lastRaid` für die Anzeige.

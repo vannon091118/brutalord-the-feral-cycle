@@ -44,6 +44,11 @@ die Ticketzeile*.
 
 ## Schnittstellen
 
+Bis das MMR steht, stellt der Client gegen genau einen Feral-Hive aus (D55):
+`feralDefender()` leitet ihn aus dem Heimseed ab, `feralTicketArgs()` baut die
+Argumente für `ticketFrom()` — das MMR ersetzt später nur diese eine Naht.
+
 - `CADRE_REASON` — `LEER`, `ZU_VIELE`, `FREMD`, `DOPPELT`, `GEFALSCHT`, `ZU_STARK`
 - `cadreRule()` — Tür und Normalisierung des Kaders
 - `ticketFrom()` — Zeile mit Id, Snapshot-Seed, Eintritt und Kader
+- `feralDefender()`, `feralTicketArgs()` — deterministischer Gegner bis zum MMR

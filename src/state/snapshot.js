@@ -91,7 +91,10 @@ export function isSavedShape(state) {
     Number.isInteger(world?.hiveOrigin?.y) &&
     (state.raid === undefined ||
     state.raid === null ||
-    isMap(state.raid))
+    isMap(state.raid)) &&
+    (state.lastRaid === undefined ||
+    state.lastRaid === null ||
+    isMap(state.lastRaid))
   );
 }
 

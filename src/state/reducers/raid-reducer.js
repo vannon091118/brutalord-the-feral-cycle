@@ -22,7 +22,7 @@ function closeRaid(state, abandoned) {
   if (state.raid == null) return state;
   const abgerechnet = settleRaid(state.raid.instance);
   const heim = abandoned === true || !abgerechnet.loot ? state : applyRaidLoot(state, abgerechnet.loot);
-  return { ...heim, raid: null };
+  return { ...heim, raid: null, lastRaid: { ...abgerechnet, abandoned: abandoned === true } };
 }
 
 export function reduceRaid(state, action) {

@@ -11,7 +11,9 @@ Wächter sind **gesetzt, nicht gemessen** — Anzahl, Leben und Staffelung stehe
 `raid-config.js`, weil es vor dieser Mechanik keinen Lauf gibt, aus dem sich eine Zahl
 ableiten ließe; die Abnahme leitet ihre Erwartungen deshalb aus derselben Config ab und
 schreibt keine Zahl ab. Ihre Plätze folgen demselben Hash-Strom wie der Einmarsch, damit
-derselbe Snapshot dieselben Wächter stellt. Fällt ein Wächter, stirbt er nicht: er geht in
+derselbe Snapshot dieselben Wächter stellt. Getroffen wird nur, wer in Reichweite steht:
+`damageWardens()` wählt den nächsten wachen Wächter in der Zone, nicht den nächsten
+überhaupt (D54). Fällt ein Wächter, stirbt er nicht: er geht in
 Koma, behält seinen Seed und trägt `revivesAfterMs` aus `RAID_CONFIG.reviveWindowMs` als
 Datum mit (D14) — geheilt wird er zu Hause mit Biomasse, nicht hier. Ein wacher Wächter in
 Reichweite bindet die Gruppe im Nahkampf (Zone of Control): sie darf angreifen, aber nicht

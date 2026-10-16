@@ -21,6 +21,7 @@ Die Kontoecke wohnt seit dem 2026-10-06 in `src/ui/AccountCorner.jsx` und nicht 
 App stand mit dem Raid-Buch am Import-Deckel von sieben Zeilen, und der Ort, an dem
 Abmelden und Buch untereinander stehen, ist ohnehin eine eigene Verantwortung. App reicht
 der Ecke nur Sitzung und Schwarm (`game.dunglings`) durch und nimmt den Rückruf entgegen,
+seit dem Raid-Panel zusätzlich Spielstand und Aktionen für Start, Zug und Ende des Raids —
 der die Sitzung aus dem Baum nimmt; die Reihenfolge des Abmeldens führt die Ecke selbst aus.
 
 ## Schnittstellen
