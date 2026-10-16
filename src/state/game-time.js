@@ -12,12 +12,24 @@ export const GAME_TIME = Object.freeze({
   maxStepMs: 1000,
 });
 
+function raidOpen(state) {
+  return state.raid !== undefined && state.raid !== null;
+}
+
 export const TICKS = Object.freeze([
   {
     action: ACTION.ROOTING_TICK,
     everyMs: ROOTING_CONFIG.tickMs,
-    paused: (state) => rootingWorkCount(state.world) === 0,
+    paused: (state) => raidOpen(state) || rootingWorkCount(state.world) === 0,
   },
-  { action: ACTION.WORK_TICK, everyMs: JOB_CONFIG.tickMs, paused: workIsIdle },
-  { action: ACTION.HIVE_TICK, everyMs: JOB_CONFIG.tickMs, paused: (state) => !hiveHasBudget(state.hive) },
+  {
+    action: ACTION.WORK_TICK,
+    everyMs: JOB_CONFIG.tickMs,
+    paused: (state) => raidOpen(state) || workIsIdle(state),
+  },
+  {
+    action: ACTION.HIVE_TICK,
+    everyMs: JOB_CONFIG.tickMs,
+    paused: (state) => raidOpen(state) || !hiveHasBudget(state.hive),
+  },
 ]);

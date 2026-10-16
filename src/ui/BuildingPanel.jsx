@@ -1,5 +1,6 @@
 // @doc: docs/daten/ui/buildingpanel.md#buildingpanel
 import { BUILDING_STATE, BUILDING_TYPE, buildingDef } from '../domain/buildings/building-config.js';
+import { enclosureAt } from '../domain/buildings/building.js';
 import { LabPanel } from './stone/LabPanel.jsx';
 
 function stateText(building) {
@@ -7,6 +8,13 @@ function stateText(building) {
     return `Bauplatz: ${building.delivered} von ${building.required} Essenz angekommen`;
   }
   return 'Fertig gebaut und in Betrieb.';
+}
+
+function roomNote({ world, buildings, building }) {
+  if (building.state !== BUILDING_STATE.READY) return null;
+  const room = enclosureAt({ world, buildings, type: building.type, anchor: building.anchor });
+  if (room.enclosed) return null;
+  return `Offener Bau: ${room.openings} Zugänge statt einem — ein geschlossener Raum braucht genau einen Zugang.`;
 }
 
 function PanelHeader({ def, onClose }) {
@@ -112,6 +120,7 @@ export function BuildingPanel(props) {
     >
       <PanelHeader def={def} onClose={props.onClose} />
       <p className="px-0.5 text-[11px] text-bone-300">{stateText(building)}</p>
+      {roomNote(props) ? <p className="px-0.5 pt-1 text-[10px] text-amber-200">{roomNote(props)}</p> : null}
       <WorkerSection
         building={building}
         maxWorkers={def.maxWorkers ?? 0}

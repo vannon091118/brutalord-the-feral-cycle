@@ -2,7 +2,7 @@
  *  wird Arbeit, und eine erledigte Zeile faellt heraus. Ohne Zeile steht der
  *  Dungling — das ist die Umkehr gegenueber der selbsttaetigen Zuweisung.
  *  Die Zeilen entstehen ueber die echte Aktion und nicht ueber eine Fabrik;
- *  den Trait-Fall (Gierig verweigert den Lieferbefehl) prueft `check-traits`. */
+ *  den Trait-Fall (Gierig verweigert den Lieferbefehl) prueft `check-traits`; Budget mit Vorschau-Gate. */
 import { ACTION } from '../../src/domain/actions/action-types.js';
 import { JOB_CONFIG } from '../../src/domain/labour/job-config.js';
 import { orderStep } from '../../src/domain/labour/order-job.js';
@@ -12,7 +12,7 @@ import { deliveryTo, labState } from './lab-run.mjs';
 import { check, section } from './expect.mjs';
 
 const EXTRACTOR_ID = 'building-2';
-const TICKS = 400;
+const TICKS = 600;
 
 function tick(state) {
   let current = state;

@@ -1,7 +1,7 @@
 // @doc: docs/daten/buildings/building.md#building
 import { BUILDING_STATE, BUILDING_TYPE, HORT_CAPACITY, PLACEMENT_REASON, buildingDef } from './building-config.js';
 import { allTiles, getTile, isInsideGrid } from '../world/grid.js';
-import { isBuildable, tileId } from '../world/tile.js';
+import { isBuildable, parseTileId, tileId } from '../world/tile.js';
 
 function occupiedTileIds(buildings) {
   return new Set(buildings.flatMap((building) => building.tileIds));
@@ -91,6 +91,33 @@ export function committedEssence(buildings) {
 
 export function spendableEssence(essence, buildings) {
   return Math.max(0, essence - committedEssence(buildings));
+}
+
+const STEPS = Object.freeze([[1, 0], [-1, 0], [0, 1], [0, -1]]);
+
+function openNeighbor({ world, taken, foot, seen, id }) {
+  if (foot.has(id) || seen.has(id)) return false;
+  seen.add(id);
+  if (taken.has(id)) return false;
+  const tile = getTile(world, id);
+  if (!tile) return false;
+  return isBuildable(tile);
+}
+
+export function enclosureAt({ world, buildings, type, anchor }) {
+  const def = buildingDef(type);
+  if (!def || !anchor) return { openings: 0, enclosed: false };
+  const foot = new Set(footprintIds(type, anchor));
+  const taken = occupiedTileIds(buildings);
+  const seen = new Set();
+  let openings = 0;
+  for (const id of foot) {
+    const { x, y } = parseTileId(id);
+    for (const [dx, dy] of STEPS) {
+      if (openNeighbor({ world, taken, foot, seen, id: tileId(x + dx, y + dy) })) openings += 1;
+    }
+  }
+  return { openings, enclosed: openings === 1 };
 }
 
 export function readyHorts(buildings) {

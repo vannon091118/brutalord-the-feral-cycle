@@ -22,3 +22,7 @@ Der Auftrag eines Dunglings: fünf Phasen, Wege und Zeiten.
 - `trip()`
 
 Aus der Migration vom 2026-10-05 hervorgegangen.
+
+## Lager-Stand
+
+Wege, Spuren, Lagerwahl und Raumbewertung wandern mit.

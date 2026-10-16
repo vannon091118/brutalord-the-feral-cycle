@@ -107,6 +107,7 @@ function buildSwarmHost(clock) {
 }
 
 function orderSwarm(clock) {
+  clock.dispatch(ACTION.STORE_PICKED, { workerId: clock.state.dunglings[0]?.id, storeId: 'hive-1' });
   let ordered = 0;
   let ms = 0;
   while (ordered < 4 && ms < 400000) {
@@ -194,6 +195,20 @@ function prepare(clock, room) {
   };
 }
 
+function playRaidInterlude(clock) {
+  const ticket = {
+    id: 'slice-raid',
+    snapshotSeed: clock.state.world.seed,
+    entry: { x: clock.state.world.hiveOrigin.x, y: clock.state.world.hiveOrigin.y },
+    heroes: [{ id: 'held-0', name: 'Held 0', atk: 4, grit: 20, speed: 5, traits: [], dig: true }],
+  };
+  clock.dispatch(ACTION.RAID_STARTED, { ticket });
+  const opened = clock.state.raid !== null && clock.state.raid !== undefined;
+  clock.dispatch(ACTION.RAID_ACTION, { action: { type: 'MOVE_E' } });
+  clock.dispatch(ACTION.RAID_ENDED, { abandoned: true });
+  return { opened, closed: clock.state.raid === null };
+}
+
 export function openingRun({ seed, onDispatch, room = false } = {}) {
   const clock = new VirtualClock({ seed, onDispatch });
   return { clock, ...prepare(clock, room) };
@@ -209,6 +224,7 @@ export function buildRun({ seed, onDispatch } = {}) {
   const occupiedRefused = refusesOccupied(clock);
   const earthRefused = tryPlace(clock, SITE_TILES.earth);
   const bruteLord = buildBruteLord(clock);
+  const raid = playRaidInterlude(clock);
   swarm.dunglingsAtEnd = clock.state.dunglings.length;
   return { ...start, clock, extractor, cycle, swarm, bruteLord, occupiedRefused, earthRefused, essence: clock.state.essence };
 }

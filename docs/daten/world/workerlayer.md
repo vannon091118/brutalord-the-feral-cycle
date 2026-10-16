@@ -31,3 +31,7 @@ nicht aus, um ihn zu deuten, sondern gibt ihn weiter, wie sie Position und Genom
 - `WorkerLayer()`
 
 Aus der Migration vom 2026-10-05 hervorgegangen.
+
+## Lager-Stand
+
+Wege, Spuren, Lagerwahl und Raumbewertung wandern mit.

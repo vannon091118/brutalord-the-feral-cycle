@@ -4,6 +4,7 @@ import { withJob } from '../entities/dungling.js';
 import { ORDER_KIND } from '../orders/order-config.js';
 import { clearOrders, createOrder, dropOrder, headOrder, pushOrder } from '../orders/order.js';
 import { createDeliverJob, createExtractJob, JOB_KIND, JOB_PHASE } from './jobs.js';
+import { nearestStoreId } from '../economy/resource-store.js';
 import { unitEffects } from '../brutelord/stone-effects.js';
 
 const TARGET_STATE = Object.freeze({
@@ -12,7 +13,7 @@ const TARGET_STATE = Object.freeze({
 });
 
 export function assignOrder(worker, buildingId) {
-  return pushOrder(worker, createOrder({ kind: ORDER_KIND.WORK, buildingId }));
+  return pushOrder(worker, createOrder({ kind: ORDER_KIND.WORK, buildingId, storeId: worker.storeId ?? null }));
 }
 
 export function standDown(worker) {
@@ -38,7 +39,7 @@ function refill(worker, work) {
 function deliveryOrder(work, worker) {
   if (work.essence <= 0 || !unitEffects(worker).buildOrders) return null;
   const site = openSite(work.buildings);
-  return site ? createOrder({ kind: ORDER_KIND.DELIVER, buildingId: site.id }) : null;
+  return site ? createOrder({ kind: ORDER_KIND.DELIVER, buildingId: site.id, storeId: worker.storeId ?? null }) : null;
 }
 
 function stationOrder(work, worker) {
@@ -47,7 +48,7 @@ function stationOrder(work, worker) {
       && entry.state === TARGET_STATE[ORDER_KIND.WORK]
       && entry.workers.includes(worker.id),
   );
-  return building ? createOrder({ kind: ORDER_KIND.WORK, buildingId: building.id }) : null;
+  return building ? createOrder({ kind: ORDER_KIND.WORK, buildingId: building.id, storeId: worker.storeId ?? null }) : null;
 }
 
 function relievedWorker(work, worker) {
@@ -65,12 +66,13 @@ function jobForOrder(worker, work, config) {
   if (!order) return null;
   const building = work.buildings.find((entry) => entry.id === order.buildingId);
   if (!building || building.state !== TARGET_STATE[order.kind]) return null;
-  return jobFor(order, { building, anchor: work.anchor, config });
+  return jobFor(order, { building, anchor: work.anchor, config, stores: work.stores, fallbackStoreId: worker.storeId ?? null });
 }
 
-function jobFor(order, { building, anchor, config }) {
+function jobFor(order, { building, anchor, config, stores, fallbackStoreId }) {
+  const storeId = order.storeId ?? fallbackStoreId ?? nearestStoreId(stores, anchor);
   if (order.kind === ORDER_KIND.WORK) {
-    return createExtractJob({ buildingId: building.id, origin: building.anchor, target: anchor, config });
+    return createExtractJob({ buildingId: building.id, origin: building.anchor, target: anchor, config, storeId });
   }
-  return createDeliverJob({ buildingId: building.id, origin: anchor, target: building.anchor, config });
+  return createDeliverJob({ buildingId: building.id, origin: anchor, target: building.anchor, config, storeId });
 }

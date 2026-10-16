@@ -10,6 +10,8 @@ export function reduceDungling(state, action) {
   switch (action.type) {
     case ACTION.DUNGLING_ORDERED:
       return ordered(state);
+    case ACTION.STORE_PICKED:
+      return pickStore(state, action);
     case ACTION.DUNGLING_SPAWNED:
       return spawned(state);
     case ACTION.DUNGLING_EMERGED:
@@ -47,6 +49,15 @@ function ordered(state) {
     dunglings: [...state.dunglings, born],
     hive: { ...state.hive, spawned: state.hive.spawned + 1 },
     essence: state.essence - DUNGLING_COST,
+  };
+}
+
+function pickStore(state, action) {
+  const worker = state.dunglings.find((entry) => entry.id === action.workerId);
+  if (!worker || !action.storeId || worker.storeId === action.storeId) return state;
+  return {
+    ...state,
+    dunglings: state.dunglings.map((entry) => (entry.id === action.workerId ? { ...entry, storeId: action.storeId } : entry)),
   };
 }
 

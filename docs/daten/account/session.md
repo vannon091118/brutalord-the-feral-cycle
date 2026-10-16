@@ -22,3 +22,7 @@ weiter, aber der Stand bleibt im Browser.
 - `clearSession()`
 
 Aus der Migration vom 2026-10-05 hervorgegangen.
+
+## Lager-Stand
+
+Sitzung liegt im geteilten Client-Speicher.

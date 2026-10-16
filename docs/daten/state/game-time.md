@@ -10,6 +10,9 @@ Der Takt der Sim-Uhr als Tabelle: welche Aktion in welchem Abstand fällig wird 
 schweigt. Die Abstände und die Bedingungen stammen aus der Domäne, hier stehen sie nur
 nebeneinander — eine Regel pro Ort.
 
+Solange `state.raid` offen ist, schweigen alle drei Takte (D4, D53): die Heimat
+steht still, während der Raid läuft.
+
 `heartbeatMs` ist der kleinste Takt der Domäne und deshalb abgeleitet, nicht gesetzt: wer
 `miningTickMs` oder den Wurzel-Takt senkt, senkt den Herzschlag mit. `maxStepMs` deckelt den
 Schritt, den ein einziger Takt nachtragen darf; was darüber liegt, ist Abwesenheit und kein

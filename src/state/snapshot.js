@@ -4,6 +4,7 @@ import { createWorld } from '../domain/world/grid.js';
 import { parseTileId } from '../domain/world/tile.js';
 import { SNAPSHOT_KEY, SNAPSHOT_MAX_BYTES, SNAPSHOT_REVISION_FIELD, SNAPSHOT_REVISION_KEY, SNAPSHOT_VERSION } from './snapshot-config.js';
 import { SNAPSHOT_WRITE, envelopeBytes, writeDecision } from './snapshot-rule.js';
+import { readJson, readRaw, removeKey, writeJson, writeRaw } from './client-storage.js';
 import { shareCode } from '../domain/replay/run-log.js';
 
 let lastPayload = null;
@@ -87,7 +88,10 @@ export function isSavedShape(state) {
     Number.isInteger(world?.width) && world.width > 0 &&
     Number.isInteger(world?.height) && world.height > 0 &&
     Number.isInteger(world?.hiveOrigin?.x) &&
-    Number.isInteger(world?.hiveOrigin?.y)
+    Number.isInteger(world?.hiveOrigin?.y) &&
+    (state.raid === undefined ||
+    state.raid === null ||
+    isMap(state.raid))
   );
 }
 
@@ -118,7 +122,7 @@ export function unpackEnvelope(envelope, playerseed) {
 }
 
 function storedRevision() {
-  const stored = Number(window.localStorage.getItem(SNAPSHOT_REVISION_KEY) ?? '0');
+  const stored = Number(readRaw(SNAPSHOT_REVISION_KEY) ?? '0');
   return Number.isInteger(stored) && stored > 0 ? stored : null;
 }
 
@@ -132,8 +136,8 @@ function payloadOf(envelope) {
 }
 
 function store(envelope) {
-  window.localStorage.setItem(SNAPSHOT_KEY, JSON.stringify(envelope));
-  window.localStorage.setItem(SNAPSHOT_REVISION_KEY, String(envelope.revision));
+  writeJson(SNAPSHOT_KEY, envelope);
+  writeRaw(SNAPSHOT_REVISION_KEY, String(envelope.revision));
   lastPayload = payloadOf(envelope);
   lastEnvelope = envelope;
   return true;
@@ -151,12 +155,7 @@ function saveEnvelope(envelope) {
 
 export function readSavedState(playerseed) {
   if (typeof window === 'undefined') return null;
-  let parsed;
-  try {
-    parsed = JSON.parse(window.localStorage.getItem(SNAPSHOT_KEY) ?? 'null');
-  } catch {
-    return null;
-  }
+  const parsed = readJson(SNAPSHOT_KEY);
   lastPayload = parsed?.state ? JSON.stringify(parsed.state) : null;
   return unpackEnvelope(parsed, playerseed);
 }
@@ -174,7 +173,7 @@ export function writeIfChanged(state, playerseed) {
 }
 
 export function clearSnapshot() {
-  window.localStorage.removeItem(SNAPSHOT_KEY);
+  removeKey(SNAPSHOT_KEY);
 }
 
 export function latestEnvelope() {
@@ -183,7 +182,7 @@ export function latestEnvelope() {
 
 function adoptRevision(revision) {
   if (!Number.isInteger(revision)) return false;
-  window.localStorage.setItem(SNAPSHOT_REVISION_KEY, String(revision));
+  writeRaw(SNAPSHOT_REVISION_KEY, String(revision));
   return true;
 }
 

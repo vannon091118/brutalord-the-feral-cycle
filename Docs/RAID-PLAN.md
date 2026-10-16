@@ -16,8 +16,9 @@ wissbar ist.
 
 ## Was der Entwurf will
 
-Ein Angriff zwischen zwei Spielern. Der Verteidiger verliert Material, wenn
-sein Hive fällt, und bekommt Material nur, wenn er selbst raidet. Es gibt
+Ein Angriff zwischen zwei Spielern. Der Verteidiger verliert null Material — die Beute des Angreifer erzeugt der
+Server als Phantom-Loot (D52), Rang trägt das MMR. Wer verteidigt, bekommt
+Material nur, wenn er selbst raidet. Es gibt
 keine Wartezeiten und keine Teilnahme-Währung: die Ausdauer des Teams *ist*
 der Einsatz, und sie wird aus den Mutationen der Monster berechnet. Wer sein
 Team losschickt, riskiert es — das ist der ganze Kern.
@@ -423,6 +424,26 @@ gratis), aber es heißt: die Runde ist **keine** Uhr, sondern ein Zähler für
 verbrauchte Angriffe. Solange der Raid keine Zeit kennt, ist das die ehrlichere
 Lesart, und `round` heißt dann genau das. Eine Wächter-Regeneration „je Runde"
 (D14) darf sich jedenfalls nicht auf Wanduhr-Zeit berufen.
+
+### Der Raid im Spielstand (P0)
+
+- **D51 — Angriffsziel ist die Instanz, kein Snapshot.** Es gibt keinen
+  Snapshotspeicher für fremde Spielstände. Der Server schickt nie
+  Verteidiger-Zustand; das Ticket trägt nur Seed, Eintritt und Kader, und die
+  Instanz entsteht prozedural beim Angreifer. P0-02 entfällt damit als
+  Bauauftrag — entschieden statt gebaut.
+- **D52 — Phantom-Beute und Rang.** Der Verteidiger verliert null Material
+  (VISION schlägt den alten Entwurfssatz), die Beute erzeugt der Server aus
+  `carried` plus `raidYieldFor`, und der Rang bleibt `MMR_AUSSTEHEND`, bis das
+  MMR steht. Das Opfer gibt sofort Ausdauer (D10 gilt), die Rückholung steht
+  nur bei verlorenem Hive mit Opfer offen; das Koma trifft Instanz-Wächter,
+  nie echte Dunglinge.
+- **D53 — Der laufende Raid ist ein Zweig der einen Kette.** `state.raid`
+  trägt `{ ticket, instance }`, kein zweiter Zustand und kein zweiter
+  Reducer-Baum. D4 gilt wörtlich: solange der Raid offen ist, pausieren
+  Wurzel-, Arbeits- und Hive-Takt. Der Reducer traut dem Ticket — den Kader
+  prüft der Server bei der Vergabe —, und Beute fließt nur über `RAID_ENDED`
+  auf `RESOLVED`; der Abbruch verfliegt.
 
 ## Die Konflikte mit den Regeln dieses Repos
 

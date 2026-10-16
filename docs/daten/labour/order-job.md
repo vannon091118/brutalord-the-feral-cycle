@@ -36,3 +36,7 @@ bekommt keinen Lieferbefehl.
 - `standDown()`
 - `orderStep()`
 - `spendOrder()`
+
+## Lager-Stand
+
+Wege, Spuren, Lagerwahl und Raumbewertung wandern mit.

@@ -1,4 +1,4 @@
-import { hiveStock, selectPlacement } from '../state/selectors.js';
+import { hiveStock, selectPlacement, storeNodesOf } from '../state/selectors.js';
 import { dunglingCapFor } from '../domain/buildings/building.js';
 import { DUNGLING_COST } from '../domain/buildings/building-config.js';
 import { BuildMenu } from './BuildMenu.jsx';
@@ -12,6 +12,8 @@ function SelectedBuilding({ building, game, actions }) {
     <div className="pointer-events-auto">
       <BuildingPanel
         building={building}
+        world={game.world}
+        buildings={game.buildings}
         lab={game.lab}
         essence={hiveStock(game).stock}
         dunglings={game.dunglings}
@@ -66,6 +68,9 @@ function HiveSlot({ game, actions, open, onClose }) {
         canOrder={stock >= DUNGLING_COST && housed < housing}
         orderHint={orderHintFor({ stock, housed, housing })}
         dunglings={game.dunglings}
+        stores={storeNodesOf(game)}
+        hiveId={game.hive.id}
+        onPickStore={(workerId, storeId) => actions.pickStore(workerId, storeId)}
         onOrder={actions.orderDungling}
         onClose={onClose}
       />

@@ -1,4 +1,6 @@
 // @doc: docs/daten/account/session.md#session
+import { readJson, removeKey, writeJson } from '../../state/client-storage.js';
+
 export const SESSION_KEY = 'dl.session';
 const SEED = /^[0-9a-f]{16}$/;
 
@@ -11,21 +13,17 @@ function isSeed(value) {
 }
 
 export function readSession() {
-  try {
-    const parsed = JSON.parse(window.localStorage.getItem(SESSION_KEY) ?? 'null');
-    if (!isSeed(parsed?.playerseed)) return null;
-    return { name: text(parsed.name), playerId: text(parsed.playerId), playerseed: parsed.playerseed, token: text(parsed.token) };
-  } catch {
-    return null;
-  }
+  const parsed = readJson(SESSION_KEY);
+  if (!isSeed(parsed?.playerseed)) return null;
+  return { name: text(parsed.name), playerId: text(parsed.playerId), playerseed: parsed.playerseed, token: text(parsed.token) };
 }
 
 export function writeSession(session) {
   if (!isSeed(session?.playerseed)) return;
   const clean = { name: text(session.name), playerId: text(session.playerId), playerseed: session.playerseed, token: text(session.token) };
-  window.localStorage.setItem(SESSION_KEY, JSON.stringify(clean));
+  writeJson(SESSION_KEY, clean);
 }
 
 export function clearSession() {
-  window.localStorage.removeItem(SESSION_KEY);
+  removeKey(SESSION_KEY);
 }

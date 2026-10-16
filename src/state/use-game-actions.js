@@ -7,6 +7,7 @@ export function useGameActions(dispatch) {
     () => ({
       clickHive: () => dispatch({ type: ACTION.HIVE_CLICKED }),
       orderDungling: () => dispatch({ type: ACTION.DUNGLING_ORDERED }),
+      pickStore: (workerId, storeId) => dispatch({ type: ACTION.STORE_PICKED, workerId, storeId }),
       clickTile: (tileId) => dispatch({ type: ACTION.TILE_SELECTED, tileId }),
       clearSelection: () => dispatch({ type: ACTION.TILE_SELECTION_CLEARED }),
       orderMining: () => dispatch({ type: ACTION.MINING_ORDERED }),
@@ -22,8 +23,10 @@ export function useGameActions(dispatch) {
       placeStone: (seed, slot) => dispatch({ type: ACTION.STONE_PLACED, seed, slot }),
       createMutant: () => dispatch({ type: ACTION.MUTANT_CREATED }),
       revertMutant: (workerId) => dispatch({ type: ACTION.MUTANT_REVERTED, workerId }),
-      descend: () => dispatch({ type: ACTION.FLOOR_DESCEND }),
-      climbLadder: () => dispatch({ type: ACTION.FLOOR_DESCEND }),
+      descend: () => dispatch({ type: ACTION.FLOOR_DESCEND }), climbLadder: () => dispatch({ type: ACTION.FLOOR_DESCEND }),
+      startRaid: (ticket) => dispatch({ type: ACTION.RAID_STARTED, ticket }),
+      raidStep: (verb) => dispatch({ type: ACTION.RAID_ACTION, action: verb }),
+      endRaid: (abandoned) => dispatch({ type: ACTION.RAID_ENDED, abandoned }),
     }),
     [dispatch],
   );

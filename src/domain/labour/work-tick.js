@@ -1,5 +1,6 @@
 // @doc: docs/daten/labour/work-tick.md#work-tick
-import { JOB_EVENT, JOB_KIND, advanceJob } from './jobs.js';
+import { JOB_EVENT, JOB_KIND, advanceJob, jobTrip } from './jobs.js';
+import { laneOfTrip } from './lanes.js';
 import { JOB_CONFIG } from './job-config.js';
 import { orderStep, spendOrder } from './order-job.js';
 import { deliverToSite, openSites, settleSite } from '../buildings/building.js';
@@ -35,12 +36,40 @@ function isBusy(building) {
 
 function advanceWorkers(work, dtMs, config) {
   let context = work;
+  const taken = new Map();
   const dunglings = work.dunglings.map((worker) => {
+    if (laneBlocked(worker, taken)) return worker;
+    claimLane(worker, taken);
     const step = advanceJob(worker.job, dtMs * tickScale(worker, work.dunglings), config);
     if (step.event) context = applyEvent(context, step.event, { job: worker.job, worker });
     return withJob(spendOrder(worker, step.job), step.job);
   });
   return { ...context, dunglings };
+}
+
+function movingTrip(worker) {
+  const trip = worker.job ? jobTrip(worker.job) : null;
+  if (!trip) return null;
+  if (trip.from.x === trip.to.x && trip.from.y === trip.to.y) return null;
+  return trip;
+}
+
+function laneKey(trip) {
+  return `${Math.round(trip.to.x)},${Math.round(trip.to.y)}`;
+}
+
+function laneBlocked(worker, taken) {
+  const trip = movingTrip(worker);
+  if (!trip) return false;
+  const lanes = taken.get(laneKey(trip)) ?? [];
+  return lanes.length >= 2 || lanes.includes(laneOfTrip(trip.from, trip.to));
+}
+
+function claimLane(worker, taken) {
+  const trip = movingTrip(worker);
+  if (!trip) return;
+  const key = laneKey(trip);
+  taken.set(key, [...(taken.get(key) ?? []), laneOfTrip(trip.from, trip.to)]);
 }
 
 function applyEvent(work, event, { job, worker }) {

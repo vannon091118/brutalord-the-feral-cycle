@@ -1,8 +1,8 @@
 // @doc: docs/daten/orders/order.md#order
 import { ORDER_CONFIG } from './order-config.js';
 
-export function createOrder({ kind, buildingId }) {
-  return { kind, buildingId };
+export function createOrder({ kind, buildingId, storeId = null }) {
+  return { kind, buildingId, storeId };
 }
 
 export function pushOrder(worker, order) {

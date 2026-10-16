@@ -1104,8 +1104,10 @@ tatsächliche Bindung schließt.
 **Was hier noch offen ist, ehrlich benannt.** Die Buchung ist **einseitig**: der
 Angreifer bekommt seine Beute gutgeschrieben, dem Verteidiger wird nichts
 abgezogen — sein Dungeon entsteht aus einem Seed, nicht aus einem eingefrorenen
-Abbild. Ein Snapshotspeicher und der Riss (D5, D22) gehören dazu, bevor ein Raid
-zwei Spielerstände berührt. Was ein Client **schickt**, ist ab jetzt eine
+Abbild. Der Riss (D5, D22) gehört dazu, bevor ein Raid zwei Spielerstände berührt;
+ein Snapshotspeicher für fremde Spielstände entfällt per D51 — das Ticket trägt
+nur Seed, Eintritt und Kader. `state.raid` hält den laufenden Raid als Zweig der
+einen Kette (D53); solange er offen ist, pausieren Wurzel-, Arbeits- und Hive-Takt (D4). Was ein Client **schickt**, ist ab jetzt eine
 Behauptung, die gegen den Stand geprüft wird — der Stand selbst ist die Quelle,
 und die Rechnung steht in der Domäne (`statsOf()`), nicht im Server.
 

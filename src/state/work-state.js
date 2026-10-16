@@ -1,6 +1,6 @@
 // @doc: docs/daten/state/work-state.md#work-state
 import { hasWork } from '../domain/labour/work-tick.js';
-import { spawnTile } from './selectors.js';
+import { spawnTile, storeNodesOf } from './selectors.js';
 
 export function workOf(state) {
   return {
@@ -10,6 +10,7 @@ export function workOf(state) {
     buildings: state.buildings,
     popups: state.popups,
     popupSeq: state.popupSeq,
+    stores: storeNodesOf(state),
   };
 }
 

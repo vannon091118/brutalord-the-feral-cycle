@@ -11,3 +11,7 @@ Generisches Lagerfach je Ressource: `storeCapacity()` nennt den Deckel,
 was noch passt — der Rest verfällt nicht still, er wird abgewiesen. Heute
 trägt nur Essenz ein Fach (60); Biomasse, Aether und Blutstein bekommen hier
 ihre Zeile, kein neues Feld im Spielstand.
+
+## Lager-Stand
+
+Wege, Spuren, Lagerwahl und Raumbewertung wandern mit.

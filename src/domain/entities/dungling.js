@@ -19,6 +19,7 @@ export function createDungling({ tile, facing = 1, id = 'dungling-1' }) {
     targetTileId: null,
     job: null,
     orders: [],
+    storeId: null,
     genome: null,
     stones: [],
     invested: 0,

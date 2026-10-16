@@ -25,3 +25,7 @@ zurück, damit der Zustands-Hash nicht durch ein Nichts neu gerechnet wird.
 - `dropOrder()`
 - `clearOrders()`
 - `headOrder()`
+
+## Lager-Stand
+
+Wege, Spuren, Lagerwahl und Raumbewertung wandern mit.

@@ -63,6 +63,10 @@ export function selectedDepositRiskClass(state) {
   return depositRiskClassAt(state.world, tile);
 }
 
+export function storeNodesOf(state) {
+  return [{ id: state.hive.id, label: 'Hive', at: spawnTile(state.world) }];
+}
+
 export function hiveStock(state) {
   const stock = Number.isInteger(state.essence) ? state.essence : 0;
   return { stock: clampedStock(STORE_RESOURCE.ESSENCE, stock), capacity: storeCapacity(STORE_RESOURCE.ESSENCE) };

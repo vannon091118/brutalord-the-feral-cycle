@@ -6,6 +6,8 @@ export const JOB_CONFIG = Object.freeze({
 
   workMs: 300,
 
+  previewMs: 600,
+
   cycleMs: 15000,
 
   popupLifetimeMs: 1600,

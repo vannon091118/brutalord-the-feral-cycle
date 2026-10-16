@@ -13,3 +13,7 @@ Zeiten der Arbeit und der Essenz-Popups.
 - keine benannten Funktionen
 
 Aus der Migration vom 2026-10-05 hervorgegangen.
+
+## Lager-Stand
+
+Wege, Spuren, Lagerwahl und Raumbewertung wandern mit.

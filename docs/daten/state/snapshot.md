@@ -53,3 +53,7 @@ Stand weiter, den der Server laengst ueberholt hat, und merkte es nie.
 - `openTestDoor()`
 
 Aus der Migration vom 2026-10-05 hervorgegangen.
+
+## Lager-Stand
+
+Liest und schreibt nur über client-storage.

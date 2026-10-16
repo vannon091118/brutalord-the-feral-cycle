@@ -1,5 +1,6 @@
 // @doc: docs/daten/labour/jobs.md#jobs
 import { JOB_CONFIG } from './job-config.js';
+import { findPath, laneOfTrip } from './lanes.js';
 
 export const JOB_KIND = Object.freeze({
   DELIVER: 'DELIVER',
@@ -26,7 +27,7 @@ function travelMs(from, to, config) {
   return distance * config.travelMsPerTile;
 }
 
-function standing({ kind, buildingId, phase, origin, target, durationMs }) {
+function standing({ kind, buildingId, phase, origin, target, durationMs, config, storeId = null }) {
   return {
     kind,
     buildingId,
@@ -36,10 +37,14 @@ function standing({ kind, buildingId, phase, origin, target, durationMs }) {
     origin: { ...origin },
     target: { ...target },
     carrying: 0,
+    lane: laneOfTrip(origin, target),
+    path: findPath(origin, target) ?? [],
+    previewMs: config.previewMs,
+    storeId,
   };
 }
 
-export function createDeliverJob({ buildingId, origin, target, config = JOB_CONFIG }) {
+export function createDeliverJob({ buildingId, origin, target, config = JOB_CONFIG, storeId = null }) {
   return standing({
     kind: JOB_KIND.DELIVER,
     buildingId,
@@ -47,10 +52,12 @@ export function createDeliverJob({ buildingId, origin, target, config = JOB_CONF
     origin,
     target,
     durationMs: config.workMs,
+    config,
+    storeId,
   });
 }
 
-export function createExtractJob({ buildingId, origin, target, config = JOB_CONFIG }) {
+export function createExtractJob({ buildingId, origin, target, config = JOB_CONFIG, storeId = null }) {
   return standing({
     kind: JOB_KIND.EXTRACT,
     buildingId,
@@ -58,11 +65,16 @@ export function createExtractJob({ buildingId, origin, target, config = JOB_CONF
     origin,
     target,
     durationMs: config.cycleMs,
+    config,
+    storeId,
   });
 }
 
 export function advanceJob(job, dtMs, config = JOB_CONFIG) {
   if (!job) return { job: null, event: null };
+  if ((job.previewMs ?? 0) > 0) {
+    return { job: { ...job, previewMs: Math.max(0, job.previewMs - Math.max(0, dtMs)) }, event: null };
+  }
   const progressMs = Math.min(job.durationMs, job.progressMs + dtMs);
   if (progressMs < job.durationMs) return { job: { ...job, progressMs }, event: null };
   return nextPhase(job, config);
@@ -88,7 +100,7 @@ function nextPhase(job, config) {
 function leg(job, config, { phase = JOB_PHASE.TRAVEL, carrying = 0, event = null } = {}) {
   const [from, to] = phase === JOB_PHASE.RETURN ? [job.target, job.origin] : [job.origin, job.target];
   return {
-    job: { ...job, phase, progressMs: 0, durationMs: travelMs(from, to, config), carrying },
+    job: { ...job, phase, progressMs: 0, durationMs: travelMs(from, to, config), carrying, previewMs: 0 },
     event,
   };
 }
