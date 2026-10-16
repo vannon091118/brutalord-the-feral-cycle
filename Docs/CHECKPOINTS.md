@@ -55,6 +55,38 @@ danach ist Maschine. Die Prüfungen dazu stehen in `npm run gate -- --docs`.
 
 ---
 
+## 0.0.70
+
+- [x] **Der Raid hat keinen Platz im Spielstand — der Fund hinter dem Raid-Buch.**
+      Ein Durchsuchen von `src/state`, `src/ui` und `src/app` findet vor dem Raid-Buch
+      keinen einzigen Treffer auf Raid, Koma oder Beute: kein Feld für einen laufenden
+      Raid, keine Zeile in `action-types.js`, kein Aufrufer für `POST /api/raid` oder
+      `POST /api/raid/ticket`. Das ist kein Versehen, sondern die Architektur:
+      `raid-state.js` ist eine **zweite** Zustandsinstanz und kein Reducer-Zweig, weil
+      `game-reducer.js` eine Kette iteriert und ein Reducer kein Verb abfängt, das an
+      einen anderen Zustand ging; der Modus-Zweig läge an der Aufrufstelle, und
+      `use-game-actions.js` steht bei 23 von 30 LOC. Wer Raid, Wächter-Koma und die Beute
+      unterwegs sichtbar machen will, baut deshalb **zuerst Zustand**: ein Feld im
+      Spielstand samt Migration, die sechs Raid-Aktionen in einem eigenen Modul und den
+      Modus-Zweig — und danach die Anzeige. Die Integration der Sichtbarkeit selbst steht
+      in [`RAID-PLAN.md`](RAID-PLAN.md), *Die Integration der Raid-Sichtbarkeit* (5),
+      weiterhin offen. Bis dahin zeigt die Oberfläche nur, was es wirklich gibt: den Kader
+      über `cadreRule()` und die Quittungen des Servers. Der leere Rail-Platz für Biomasse
+      ist derselbe Fall und steht schon oben. **Stand seit diesem Zug:** das Feld existiert
+      (`state.raid` mit Ticket plus Instanz, drei Aktionen in `action-types.js`, Abrechnung in
+      `lastRaid`), und das Raid-Panel in der Kontoecke spielt den Ablauf — Start gegen den
+      Feral-Hive, Schritte mit Kosten, Taten nur in Reichweite, Sicherung am Eintritt. Der
+      Aufrufer steht seit P0-05: `src/ui/raid-submit.js` holt das Ticket über
+      `POST /api/raid/ticket` (Feral ohne Verteidiger-Konto, D56) und reicht das Log über
+      `POST /api/raid` ein — die Quittung schreibt der Server nach dem Replay-Check, das
+      Panel zeigt sie in der Ergebniszeile. Ohne Server läuft der Feral-Raid lokal weiter.
+  Status: fix
+  Scope: Client
+  Kategorie: Feature
+  Version: 0.0.70
+  Datum: 2026-10-16
+
+
 ## 0.0.55
 
 - [x] **Hartgestein der Heimat: Stein und Obsidian in ganzen Blöcken.** Die
