@@ -66,6 +66,11 @@ function checkKampf(world, kampf) {
   check('Ein wacher Wächter bindet die Gruppe im Nahkampf', gebunden === kampf);
   const gefecht = fight(kampf, world);
   check('Der Kampf endet mit der gefallenen Verteidigung', gefecht.at(-1).phase === RAID_PHASE.WARDEN_DOWN, gefecht.at(-1).phase);
+  check('Die Runde wechselt ohne Aufrufer', gefecht.at(-1).round > 1, `Runde ${gefecht.at(-1).round}`);
+  const zweitlauf = fight(kampf, world);
+  check('Zwei Laeufe mit denselben Schlaegen erreichen dieselbe Runde',
+    zweitlauf.at(-1).round === gefecht.at(-1).round && JSON.stringify(zweitlauf.at(-1)) === JSON.stringify(gefecht.at(-1)),
+    `Runde ${zweitlauf.at(-1).round} gegen ${gefecht.at(-1).round}`);
   return gefecht;
 }
 

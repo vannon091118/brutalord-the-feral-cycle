@@ -2,9 +2,8 @@
 import { orderFrom, tickMove } from '../../src/domain/raid/raid-move.js';
 import { RAID_VERB } from '../../src/domain/raid/raid-verbs.js';
 import { RAID_ACTION } from '../../src/domain/raid/raid-actions.js';
-import { RAID_CONFIG, RAID_PHASE } from '../../src/domain/raid/raid-config.js';
+import { RAID_PHASE } from '../../src/domain/raid/raid-config.js';
 import { applyAction } from '../../src/domain/raid/raid-steps.js';
-import { nextRound } from '../../src/domain/raid/raid-state.js';
 
 export function marchTo(state, world, point) {
   const ordered = orderFrom(state, world, { verb: RAID_VERB.DIG, ...point });
@@ -42,16 +41,11 @@ export function lootDeed(state) {
   return applyAction(state, null, { type: RAID_ACTION.LOOT });
 }
 
-function ohneAp(state) {
-  return state.heroes.every((hero) => hero.ap < RAID_CONFIG.attackApCost);
-}
-
 export function fight(state, world, limit = 400) {
   const folge = [state];
   let current = state;
   for (let i = 0; i < limit && current.phase === RAID_PHASE.COMBAT; i += 1) {
-    const geschlagen = hit(current, world);
-    current = ohneAp(geschlagen) ? nextRound(geschlagen) : geschlagen;
+    current = hit(current, world);
     folge.push(current);
   }
   return folge;

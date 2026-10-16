@@ -11,7 +11,8 @@ aus der Pfadfindung, damit Plan und Schritt dieselbe Zahl nennen. Welche Aktion 
 zulässt, steht nicht hier, sondern in `raid-phases.js`: der Schritt liest die Tabelle und
 weist eine Aktion ab, die dort nicht steht. Der Kontakt mit dem Hive ist ein Ereignis und
 kein Sonderfall — er geht durch dieselbe Maschine wie jede andere Kante, statt die Phase
-direkt zu setzen.
+direkt zu setzen. `applyAction()` ruft als letzte Zeile `roundOver()` nach `resolveLoss()`:
+ erst prüfen, ob die Ausdauer den Raid beendet, dann die Runde weiterdrehen (D47).
 
 ## Schnittstellen
 

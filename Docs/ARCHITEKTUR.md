@@ -1491,12 +1491,11 @@ einem feindlichen Hive mit gefallenem Wächter kennt. Damit ist die Kante
 `Blutstein → neue Tiefe` aus [`VISION-CORE-LOOP.md`](VISION-CORE-LOOP.md) nicht
 mehr ein Satz, sondern eine Rechnung.
 
-**Was der Ausbau nicht löst:** Der Rundenwechsel liegt beim Aufrufer.
-`nextRound()` füllt die AP nach, aber im Raid gibt es keine Uhr — die Sim-Uhr
-der Kolonie treibt ihn nicht, und ein zweites Zeitmodell war ausdrücklich der
-Grund, die Mechanik zuletzt zu bauen. Bis es eine Raid-Uhr gibt, entscheidet die
-Oberfläche, wann eine Runde endet; die Abnahme tut dasselbe und ruft `nextRound`
-selbst.
+**Gelöst seit D47:** Der Rundenwechsel ist eine Folge, kein Befehl. `applyAction()`
+ruft `roundOver()` als letzte Zeile — kann kein Held mehr angreifen, füllt
+`nextRound()` die AP auf und zählt die Runde hoch. Eine Raid-Uhr gibt es weiter
+nicht; die Runde zählt verbrauchte Angriffe, keine Zeit. `nextRound()` bleibt
+exportiert, aber ohne Aufrufer außerhalb der Domäne.
 
 ## Die zwei tiefen Ressourcen
 

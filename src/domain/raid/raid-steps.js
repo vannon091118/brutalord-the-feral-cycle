@@ -3,7 +3,7 @@ import { RAID_ACTION, isDigAction, isKnownAction } from './raid-actions.js';
 import { RAID_EVENT, RAID_PHASE, actionsAllowedIn, isTerminal } from './raid-phases.js';
 import { approachSteps } from './raid-config.js';
 import { allWardensDown, bindsGroup, hiveFallen } from './raid-warden.js';
-import { transition } from './raid-state.js';
+import { roundOver, transition } from './raid-state.js';
 import { stepInto } from './raid-traverse.js';
 import { attackStep, lootStep, sacrificeStep } from './raid-verbs.js';
 
@@ -64,5 +64,5 @@ export function applyAction(state, world, action) {
   const kategorie = categoryOf(action);
   if (!actionsAllowedIn(state.phase).includes(kategorie)) return state;
   const danach = kategorie === 'MOVE' || kategorie === 'DIG' ? travel(state, world, action) : deed(state, action);
-  return resolveLoss(danach);
+  return roundOver(resolveLoss(danach));
 }

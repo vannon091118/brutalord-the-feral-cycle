@@ -66,6 +66,11 @@ export function nextRound(state) {
   return { ...state, round: state.round + 1, heroes: state.heroes.map(refillAp) };
 }
 
+export function roundOver(state) {
+  const leer = state.heroes.every((hero) => hero.ap < RAID_CONFIG.attackApCost);
+  return leer ? nextRound(state) : state;
+}
+
 export function record(state, entry) {
   return { ...state, log: [...state.log, entry] };
 }
@@ -78,6 +83,7 @@ export function stateHashInput(state) {
     path: state.path.length,
     stamina: state.stamina,
     phase: state.phase,
+    round: state.round,
     heroes: state.heroes.map((hero) => ({ id: hero.id, ap: hero.ap })),
     dug: Object.keys(state.dug).length,
     wardens: state.wardens.map((wache) => ({ id: wache.id, hp: wache.hp, coma: wache.coma })),

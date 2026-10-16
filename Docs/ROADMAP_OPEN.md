@@ -219,14 +219,19 @@ und mit einem Lauf, den ein zweiter nachspielen kann.
   Version: ausstehend
   Datum: ausstehend
 
-- [ ] **Der Rundenwechsel kommt aus dem Log.** `nextRound()` ruft bis heute der
-      Aufrufer — heute nur die Belagerungs-Fixture —, und `stateHashInput()` trägt
-      `round` nicht, sodass zwei Instanzen auf verschiedenen Runden landen können,
-      ohne dass `replayMatches()` es merkt. Der beschlossene Umbau steht in
+- [x] **Der Rundenwechsel kommt aus dem Log.** `nextRound()` rief bis heute der
+      Aufrufer — heute nur die Belagerungs-Fixture —, und `stateHashInput()` trug
+      `round` nicht, sodass zwei Instanzen auf verschiedenen Runden landen konnten,
+      ohne dass `replayMatches()` es merkte. Der beschlossene Umbau steht in
       [`RAID-PLAN.md`](RAID-PLAN.md), *Der beschlossene Umbau: der Rundenwechsel
       kommt aus dem Log* (D47): die Runde wird zur Folge der verbrauchten AP im
       `applyAction`, und `round` kommt in den Hash. Der Preis ist der Golden-Wert
-      — `npm run golden:raid` wird einmal neu geschrieben.
+      — `npm run golden:raid` wird einmal neu geschrieben. **Stand seit diesem Zug:**
+      `roundOver()` in `raid-state.js` füllt die AP auf und zählt die Runde hoch,
+      sobald kein Held mehr angreifen kann; `applyAction()` ruft es nach
+      `resolveLoss()`, die Fixture hat `ohneAp()` und den ausdrücklichen Ruf
+      verloren, und `check-raid-siege.mjs` belegt Rundenwechsel ohne Aufrufer plus
+      gleiche Runde in zwei Läufen. Der Golden-Wert ist auf Node 22 neu geschrieben.
   Status: geplant
   Scope: Domäne
   Kategorie: Feature
