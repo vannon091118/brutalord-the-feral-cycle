@@ -1,0 +1,7 @@
+<<<<<<< SEARCH
+  check('Der Hash kennt genau die abgemachten Felder',
+    Object.keys(input).join(',') === 'format,at,order,path,stamina,phase,heroes,dug,wardens,hive,carried,secured,lost');
+=======
+  check('Der Hash kennt genau die abgemachten Felder',
+    Object.keys(input).join(',') === 'format,at,order,path,stamina,phase,round,heroes,dug,wardens,hive,carried,secured,lost');
+>>>>>>> REPLACE
