@@ -1,0 +1,23 @@
+🎨 Palette: Add explicit focus rings to account form
+
+💡 What:
+I added explicit `focus-visible` styling with `ring-2` to the form inputs and buttons in the AccountField and AccountForm components.
+
+🎯 Why:
+The default focus indicators on heavily styled Tailwind components often blend into the background or aren't distinct enough, especially for keyboard-only users who rely on clear visual feedback. The explicit focus-visible rings make it immediately obvious which input or button currently has focus.
+
+📸 Before/After:
+Before: Forms inputs had a subtle border color change on focus, but buttons had no clear visual change when focused via keyboard.
+After: Inputs and buttons have a distinct, accessible 2px ring using the core/bone color palette when focused via keyboard navigation.
+
+♿ Accessibility:
+This is a direct accessibility win, ensuring the login/registration forms are fully usable via keyboard and screen reader by clearly indicating the active element.
+
+Files modified:
+- src/ui/account/AccountField.jsx
+- src/ui/account/AccountForm.jsx
+- docs/daten/account/accountfield.md
+- docs/daten/account/accountform.md
+- .Jules/palette.md
+
+created by VANNON Volatile Agent Needing No Other Nonsense — Never Overly Nice, Never Average Vibe.
