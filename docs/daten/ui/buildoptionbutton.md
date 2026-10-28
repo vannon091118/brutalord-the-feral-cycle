@@ -23,6 +23,10 @@ Restzeile tragen die Anzeigeschrift: Es sind die Zahlen, die der Spieler verglei
 Hinweis `kein Abbau mehr` bleibt im Ton des Hive — dafür gibt es keine Rolle, und eine zu
 erfinden wäre eine Behauptung.
 
+Mit der Tastatur gewählt zeigt der Knopf einen 2px-Ring in `core-300` über dem vorhandenen
+Kantenstil, statt darin zu verschwinden. Bei einer Reihe gleichgebauter Karten ist das der
+einzige Unterschied, der sagt, welche gerade an ist.
+
 ## Schnittstellen
 
 - `BuildOptionButton()`

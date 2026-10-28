@@ -53,7 +53,7 @@ async function driveExtractor(stage) {
   const essenceBefore = (await readState(page)).essence;
   await placeBuilding(stage, BUILDING_LABEL.extractor);
   const lord = await panelText(page);
-  await page.locator(SEL.panel).getByRole('button', { name: '+ Dungling' }).click();
+  await page.locator(SEL.panel).getByRole('button', { name: 'Dungling zuweisen' }).click();
   log(`Extractor steht (${lord.split('\n').find(Boolean) ?? 'Panel offen'})`);
   await waitState(page, { label: 'Essenz pumpt', until: (s) => s.essence > essenceBefore + 3, timeoutMs: 180000, log });
   await stage.writeState('extractor-laeuft');

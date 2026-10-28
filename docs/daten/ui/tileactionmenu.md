@@ -10,7 +10,9 @@ Kontextmenü an genau einem Erdblock. Die Welt bleibt darunter vollständig sich
 enthält genau eine Aktion: Abbau. Es misst in `useLayoutEffect` den Kasten, in dem es hängt,
 und klemmt sich noch vor dem ersten Anstrich hinein — deshalb bleibt es beim ersten Aufbau
 unsichtbar, bis die Position steht. `flipped` dreht die Einflugrichtung. Drei Wege schließen
-es: der ✕-Knopf im Kopf, Escape und ein Rechtsklick (`useCloseGestures`).
+es: der ✕-Knopf im Kopf, Escape und ein Rechtsklick (`useCloseGestures`). Der ✕-Knopf
+trägt bei Tastaturfokus einen 2px-Ring in `bone-400`, damit der Weg hinaus auch ohne Maus
+sichtbar bleibt.
 
 ## Schnittstellen
 
