@@ -5,7 +5,7 @@ export function MiningMenuItem({ onMine }) {
       type="button"
       role="menuitem"
       onClick={onMine}
-      className="group flex w-full items-center gap-2.5 rounded-lg border border-core-500/25 bg-core-500/10 px-2.5 py-2 text-left transition hover:border-core-400/60 hover:bg-core-500/20 active:scale-[0.98]"
+      className="group flex w-full items-center gap-2.5 rounded-lg border border-core-500/25 bg-core-500/10 px-2.5 py-2 text-left transition hover:border-core-400/60 hover:bg-core-500/20 active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-core-300"
     >
       <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true" className="shrink-0">
         <path d="M3.5 20.5 12 12" stroke="var(--color-bone-300)" strokeWidth="2.2" strokeLinecap="round" />

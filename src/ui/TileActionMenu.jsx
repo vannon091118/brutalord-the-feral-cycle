@@ -15,7 +15,7 @@ function TileMenuTitle({ onClose }) {
         type="button"
         onClick={onClose}
         aria-label="Menü schließen"
-        className="ml-auto rounded-full border border-bone-400/20 px-1.5 text-[11px] leading-none text-bone-400 transition-colors hover:border-bone-400/50 hover:text-bone-100"
+        className="ml-auto rounded-full border border-bone-400/20 px-1.5 text-[11px] leading-none text-bone-400 transition-colors hover:border-bone-400/50 hover:text-bone-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-bone-400"
       >
         ✕
       </button>
