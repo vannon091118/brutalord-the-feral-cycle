@@ -22,7 +22,7 @@ export function BuildOptionButton({ option, def, affordable, spendable, picked, 
       onClick={onPick}
       disabled={!affordable}
       aria-pressed={picked}
-      className={`dl-inset group flex flex-col items-center gap-1.5 rounded-[var(--radius-dl)] border px-2 py-2.5 transition active:scale-[0.98] ${tone}`}
+      className={`dl-inset group flex flex-col items-center gap-1.5 rounded-[var(--radius-dl)] border px-2 py-2.5 transition active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-core-300 ${tone}`}
     >
       <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true">
         {option.glyph}

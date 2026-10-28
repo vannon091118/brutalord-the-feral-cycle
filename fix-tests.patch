@@ -1,0 +1,32 @@
+--- src/ui/MiningMenuItem.jsx
++++ src/ui/MiningMenuItem.jsx
+@@ -5,7 +5,7 @@
+       type="button"
+       role="menuitem"
+       onClick={onMine}
+-      className="group flex w-full items-center gap-2.5 rounded-lg border border-core-500/25 bg-core-500/10 px-2.5 py-2 text-left transition hover:border-core-400/60 hover:bg-core-500/20 active:scale-[0.98]"
++      className="group flex w-full items-center gap-2.5 rounded-lg border border-core-500/25 bg-core-500/10 px-2.5 py-2 text-left transition hover:border-core-400/60 hover:bg-core-500/20 active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-core-300"
+     >
+       <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true" className="shrink-0">
+         <path d="M3.5 20.5 12 12" stroke="var(--color-bone-300)" strokeWidth="2.2" strokeLinecap="round" />
+--- src/ui/TileActionMenu.jsx
++++ src/ui/TileActionMenu.jsx
+@@ -11,7 +11,7 @@
+       <button
+         type="button"
+         onClick={onClose}
+         aria-label="Menü schließen"
+-        className="ml-auto rounded-full border border-bone-400/20 px-1.5 text-[11px] leading-none text-bone-400 transition-colors hover:border-bone-400/50 hover:text-bone-100"
++        className="ml-auto rounded-full border border-bone-400/20 px-1.5 text-[11px] leading-none text-bone-400 transition-colors hover:border-bone-400/50 hover:text-bone-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-bone-400"
+       >
+         ✕
+--- src/ui/BuildOptionButton.jsx
++++ src/ui/BuildOptionButton.jsx
+@@ -19,7 +19,7 @@
+       onClick={onPick}
+       disabled={!affordable}
+       aria-pressed={picked}
+-      className={`dl-inset group flex flex-col items-center gap-1.5 rounded-[var(--radius-dl)] border px-2 py-2.5 transition active:scale-[0.98] ${tone}`}
++      className={`dl-inset group flex flex-col items-center gap-1.5 rounded-[var(--radius-dl)] border px-2 py-2.5 transition active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-core-300 ${tone}`}
+     >
+       <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true">

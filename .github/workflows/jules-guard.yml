@@ -264,7 +264,6 @@ jobs:
     if: always() && ((needs.route.outputs.blocked != '' && needs.route.outputs.blocked != '[]') || (needs.watchdog.outputs.blocked != '' && needs.watchdog.outputs.blocked != '[]'))
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
       - name: Sammel-Issue fortschreiben
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -304,7 +303,6 @@ jobs:
     if: always() && ((needs.route.outputs.blocked != '' && needs.route.outputs.blocked != '[]') || (needs.watchdog.outputs.blocked != '' && needs.watchdog.outputs.blocked != '[]'))
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
       - name: Fehlenden Beleg an den Antrag schreiben
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -334,7 +332,6 @@ jobs:
     if: always() && ((needs.route.outputs.blocked != '' && needs.route.outputs.blocked != '[]') || (needs.watchdog.outputs.blocked != '' && needs.watchdog.outputs.blocked != '[]'))
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
       - name: Frist gerissen, Antrag schliessen
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

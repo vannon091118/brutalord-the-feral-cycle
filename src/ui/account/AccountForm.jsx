@@ -28,7 +28,7 @@ function FormFailure({ error }) {
 function FormSubmit({ busy, mode }) {
   const label = mode === ACCOUNT_UI.register ? 'Konto anlegen' : 'Anmelden';
   return (
-    <button type="submit" className="rounded-lg bg-core-500 px-3 py-2 text-sm font-medium text-soil-950 transition-colors hover:bg-core-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-core-300 disabled:opacity-50" disabled={busy}>
+    <button type="submit" className="rounded-lg bg-core-500 px-3 py-2 text-sm font-medium text-soil-950 transition-colors hover:bg-core-400 disabled:opacity-50" disabled={busy}>
       {busy ? 'Einen Moment…' : label}
     </button>
   );
@@ -36,7 +36,7 @@ function FormSubmit({ busy, mode }) {
 
 function FormSwitch({ mode, onSwitch }) {
   return (
-    <button type="button" className="text-xs text-bone-400 underline-offset-2 transition-colors hover:text-bone-200 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-bone-400 focus-visible:ring-offset-2 focus-visible:ring-offset-soil-950 rounded-sm" onClick={onSwitch}>
+    <button type="button" className="text-xs text-bone-400 underline-offset-2 transition-colors hover:text-bone-200 hover:underline" onClick={onSwitch}>
       {mode === ACCOUNT_UI.register ? 'Ich habe schon ein Konto' : 'Neues Konto anlegen'}
     </button>
   );
