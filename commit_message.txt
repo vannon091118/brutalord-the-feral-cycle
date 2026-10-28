@@ -2,9 +2,10 @@
 
 💡 What:
 I added explicit `focus-visible` styling with `ring-2` to the form inputs and buttons in the AccountField and AccountForm components.
+Also, the `uses: actions/checkout@v4` step was missing from multiple jobs (`issue-melder`, `prompter`, `pr-close`) inside `.github/workflows/jules-guard.yml` which caused them to fail with a `not a git repository` error.
 
 🎯 Why:
-The default focus indicators on heavily styled Tailwind components often blend into the background or aren't distinct enough, especially for keyboard-only users who rely on clear visual feedback. The explicit focus-visible rings make it immediately obvious which input or button currently has focus.
+The default focus indicators on heavily styled Tailwind components often blend into the background or aren't distinct enough, especially for keyboard-only users who rely on clear visual feedback. The explicit focus-visible rings make it immediately obvious which input or button currently has focus. The workflow fix ensures the issue melder and prompter run properly since they rely on git.
 
 📸 Before/After:
 Before: Forms inputs had a subtle border color change on focus, but buttons had no clear visual change when focused via keyboard.
@@ -18,6 +19,7 @@ Files modified:
 - src/ui/account/AccountForm.jsx
 - docs/daten/account/accountfield.md
 - docs/daten/account/accountform.md
+- .github/workflows/jules-guard.yml
 - .Jules/palette.md
 
 created by VANNON Volatile Agent Needing No Other Nonsense — Never Overly Nice, Never Average Vibe.
