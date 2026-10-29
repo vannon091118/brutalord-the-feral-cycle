@@ -18,6 +18,8 @@ export function AccountCorner({ session, swarm, buildings = [], game, actions, o
         type="button"
         className="rounded border border-bone-700/40 bg-soil-900/70 px-2 py-1 text-[10px] text-bone-400 transition-colors hover:text-bone-100"
         onClick={signOut}
+        title="Konto abmelden"
+        aria-label={`Konto ${session.name} abmelden`}
       >
         {session.name} · abmelden
       </button>
