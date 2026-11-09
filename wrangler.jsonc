@@ -19,7 +19,7 @@
     {
       "binding": "DB",
       "database_name": "brutalord-accounts",
-      "database_id": "00000000-0000-0000-0000-000000000000",
+      "database_id": "932c234b-76fe-45df-b933-a1a3b04c2da6",
       "migrations_dir": "workers/d1"
     }
   ]
