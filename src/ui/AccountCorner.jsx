@@ -16,6 +16,7 @@ export function AccountCorner({ session, swarm, buildings = [], game, actions, o
     <div className="absolute right-2 top-2 z-20 flex flex-col items-end gap-1.5">
       <button
         type="button"
+        aria-label={`${session.name} abmelden`}
         className="rounded border border-bone-700/40 bg-soil-900/70 px-2 py-1 text-[10px] text-bone-400 transition-colors hover:text-bone-100"
         onClick={signOut}
       >
