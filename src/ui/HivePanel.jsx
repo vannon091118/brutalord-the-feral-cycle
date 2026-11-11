@@ -28,6 +28,7 @@ function DunglingRow({ worker, stores, hiveId, onPickStore }) {
         type="button"
         disabled={!next || next.id === current}
         title={next && next.id !== current ? `Lager wechseln zu ${next.label}` : 'Der Hive ist das einzige Lager'}
+        aria-label={next && next.id !== current ? `Lager wechseln zu ${next.label} (${label} aktuell)` : `Der Hive ist das einzige Lager (${label} aktuell)`}
         onClick={() => onPickStore(worker.id, next.id)}
         className="shrink-0 rounded-full border border-bone-400/20 px-2 py-[2px] text-[10px] text-bone-300 transition hover:border-core-400/40 disabled:opacity-40"
       >
@@ -56,11 +57,7 @@ export function HivePanel({ stock, capacity, housed, housing, orderCost, canOrde
       <ul className="pt-1">
         {dunglings.map((worker) => <DunglingRow key={worker.id} worker={worker} stores={stores} hiveId={hiveId} onPickStore={onPickStore} />)}
       </ul>
-      <button
-        type="button"
-        onClick={onClose}
-        className="mt-1 w-full rounded-lg border border-bone-400/15 px-2.5 py-1 text-[11px] text-bone-300 transition hover:border-core-400/40"
-      >
+      <button type="button" onClick={onClose} aria-label="Hive-Übersicht schließen" className="mt-1 w-full rounded-lg border border-bone-400/15 px-2.5 py-1 text-[11px] text-bone-300 transition hover:border-core-400/40">
         Schließen
       </button>
     </section>
